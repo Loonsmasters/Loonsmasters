@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loons Trophies</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: #eaeaea;
+      color: #333;
+    }
+
+    header, footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.75rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .trophy-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .trophy-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .trophy-card h3 {
+      color: #c0392b;
+      margin-top: 0;
+      font-size: 1.25rem;
+    }
+
+    .trophy-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin: 0.5rem 0 0;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.85rem;
+    }
+
+    /* Make images responsive inside the trophy card */
+    .trophy-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Loons Masters Invitational</h1>
+    <p>Legendary Trophies & Their Tales</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="results.html">Results</a>
+    <a href="trophies.html">Trophies</a>
+    <a href="scores.html">Scores</a>
+    <a href="photos.html">Photos</a>
+    <a href="courses.html">Courses</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+
+  <main>
+    <div class="trophy-card">
+      <a href="trophies/images/claret_jug.jpg" data-lightbox="trophy" data-title="The Claret Jug">
+        <img src="trophies/thumbnails/claret_jug.jpg" alt="The Claret Jug" />
+      </a>
+      <h3>The Claret Jug</h3>
+      <p>Awarded to the overall Loons Tournament winner — the player with the highest combined Stableford score.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/lord_sidney_bikerstaff.jpg" data-lightbox="trophy" data-title="Lord Sidney Bikerstaff Trophy">
+        <img src="trophies/thumbnails/lord_sidney_bikerstaff.jpg" alt="Lord Sidney Bikerstaff Trophy" />
+      </a>
+      <h3>Lord Sidney Bikerstaff Trophy</h3>
+      <p>The infamous “Sidney” showdown on the practice green. Winner dons the cap and gains the title through noble 3-putt failure.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/davies_turd.jpg" data-lightbox="trophy" data-title="Davies Turd Trophy">
+        <img src="trophies/thumbnails/davies_turd.jpg" alt="Davies Turd Trophy" />
+      </a>
+      <h3>Davies Turd Trophy</h3>
+      <p>Awarded for the most catastrophic or hilarious moment of the weekend. Bags in soup? Falling into bunkers? You’re a contender.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/pink_tee.jpg" data-lightbox="trophy" data-title="The Pink Tee">
+        <img src="trophies/thumbnails/pink_tee.jpg" alt="The Pink Tee" />
+      </a>
+      <h3>The Pink Tee</h3>
+      <p>Shortest opening drive of the tournament — shameful and glorious in equal measure.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/par_3.jpg" data-lightbox="trophy" data-title="Par 3 Champion">
+        <img src="trophies/thumbnails/par_3.jpg" alt="Par 3 Champion" />
+      </a>
+      <h3>Par 3 Champion</h3>
+      <p>Most Stableford points over all par 3s. Tie? Countback time.</p>
+    </div>
+    <div class="trophy-card">
+      
+      <h3>Par 5 Champion</h3>
+      <p>Most Stableford points over all par 5s. Tie? Countback time.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/eiffel_tower.jpg" data-lightbox="trophy" data-title="The Eiffel Tower">
+        <img src="trophies/thumbnails/eiffel_tower.jpg" alt="The Eiffel Tower" />
+      </a>
+      <h3>The Eiffel Tower</h3>
+      <p>Longest drive on the final day’s nominated hole. Swing hard or go home.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/golf_mug.jpg" data-lightbox="trophy" data-title="Golf Mug">
+        <img src="trophies/thumbnails/golf_mug.jpg" alt="Golf Mug" />
+      </a>
+      <h3>Golf Mug</h3>
+      <p>Lowest Stableford score overall. You tried. We think.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/big_banana.jpg" data-lightbox="trophy" data-title="The Big Banana">
+        <img src="trophies/thumbnails/big_banana.jpg" alt="The Big Banana" />
+      </a>
+      <h3>The Big Banana</h3>
+      <p>Biggest slice on the final day. No banana shall go unpunished.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/all_the_gear_no_idea.jpg" data-lightbox="trophy" data-title="All the Gear, No Idea">
+        <img src="trophies/thumbnails/all_the_gear_no_idea.jpg" alt="All the Gear, No Idea" />
+      </a>
+      <h3>All the Gear, No Idea</h3>
+      <p>For the player who bought everything and improved nothing.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/man_on_fire.jpg" data-lightbox="trophy" data-title="Man on Fire">
+        <img src="trophies/thumbnails/man_on_fire.jpg" alt="Man on Fire" />
+      </a>
+      <h3>Man on Fire</h3>
+      <p>One red-hot round that sets the bar ablaze, even if you fall apart later.</p>
+    </div>
+    <div class="trophy-card">
+
+      <h3>4 Piss Warm Lagers</h3>
+      <p>Lowest Stableford score on Day 1. Enjoy your warm beers, champ.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/golf_bag.jpg" data-lightbox="trophy" data-title="Golf Bag Bar">
+        <img src="trophies/thumbnails/golf_bag.jpg" alt="Golf Bag Bar" />
+      </a>
+      <h3>Golf Bag Bar</h3>
+      <p>For the party animal who burned the candle at both ends. Literally.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/darren_clark_training_set.jpg" data-lightbox="trophy" data-title="Darren Clark’s Training Set">
+        <img src="trophies/thumbnails/darren_clark_training_set.jpg" alt="Darren Clark’s Training Set" />
+      </a>
+      <h3>Darren Clark’s Training Set</h3>
+      <p>Awarded to the competitor who clearly needs to start reading “Golf for Dummies.”</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/sombrero.jpg" data-lightbox="trophy" data-title="Sombreros">
+        <img src="trophies/thumbnails/sombrero.jpg" alt="Sombreros" />
+      </a>
+      <h3>Sombreros</h3>
+      <p>Given to the bandits of the day (highest score over 30). Wear it with pride... or shame.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/masterclass.jpg" data-lightbox="trophy" data-title="The Master Class">
+        <img src="trophies/thumbnails/masterclass.jpg" alt="The Master Class" />
+      </a>
+      <h3>The Master Class</h3>
+      <p>For the last place finisher. Time to hit the books, mate.</p>
+    </div>
+    <div class="trophy-card">
+      <a href="trophies/images/le_choke.jpg" data-lightbox="trophy" data-title="Le Choke">
+        <img src="trophies/thumbnails/le_choke.jpg" alt="Le Choke" />
+      </a>
+      <h3>Le Choke</h3>
+      <p>Given to the poor soul who spectacularly snatched defeat from the jaws of victory.</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; Loons Masters Invitational | Trophy Cabinet</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
+</body>
+</html>

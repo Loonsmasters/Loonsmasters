@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loons Photos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header, footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.75rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    .gallery-section {
+      max-width: 1100px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .year-title {
+      font-size: 1.5rem;
+      margin: 1.5rem 0 1rem;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .photo-grid img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      object-fit: cover;
+      transition: transform 0.2s ease;
+    }
+
+    .photo-grid a:hover img {
+      transform: scale(1.03);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Loons Masters Invitational</h1>
+    <p>Photo Archives</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="results.html">Results</a>
+    <a href="trophies.html">Trophies</a>
+    <a href="scores.html">Scores</a>
+    <a href="photos.html">Photos</a>
+    <a href="courses.html">Courses</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+
+  <div class="gallery-section">
+    <!-- Photo sections for each year -->
+    <!-- Start 2003 to 2013 -->
+    ${[...Array(11)].map((_, i) => {
+      const year = 2003 + i;
+      return `
+      <h2 class="year-title">${year}</h2>
+      <div class="photo-grid">
+        ${[1,2,3,4,5,6,7,8,9,10].map(n => `
+          <a href="photos/${year}/photo${n}.jpg" data-lightbox="${year}" data-title="Loons ${year} Photo ${n}">
+            <img src="photos/${year}/photo${n}.jpg" alt="Loons ${year} Photo ${n}">
+          </a>
+        `).join('')}
+      </div>`;
+    }).join('')}
+    <!-- End -->
+  </div>
+
+  <footer>
+    <p>&copy; Loons Masters Invitational | Photo Archives</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+</body>
+</html>
