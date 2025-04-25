@@ -72,54 +72,49 @@
     <div class="lightbox-content" id="lightbox-content"></div>
   </div>
 
-  <script>
-    const gallery = document.getElementById('gallery');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxContent = document.getElementById('lightbox-content');
+<script>
+    const years = [2003, 2004, 2005, 2006, 2007, 2008]; // Add more years as needed
 
-    const years = [2003, 2004, 2005, 2006, 2007, 2008];
+    // Function to load photos for each year
+    function loadPhotos(year) {
+        fetch(`photos/${year}/photos.json`)
+            .then(response => response.json())
+            .then(data => {
+                const yearContainer = document.createElement("div");
+                yearContainer.classList.add("year-container");
 
-    years.forEach(year => {
-      for (let i = 1; i <= 20; i++) {
-        const base = `photos/${year}/photo${i}`;
-        const extensions = ['.jpg', '.jpeg', '.png', '.mp4'];
+                // Add a heading for the year
+                const yearHeading = document.createElement("h2");
+                yearHeading.textContent = `Photos from ${year}`;
+                yearContainer.appendChild(yearHeading);
 
-        extensions.forEach(ext => {
-          const filePath = `${base}${ext}`;
-          const item = document.createElement('div');
-          item.classList.add('gallery-item');
+                // Generate photo thumbnails based on the JSON data
+                data.photos.forEach((filename, index) => {
+                    const img = document.createElement("img");
+                    img.src = `photos/${year}/${filename}`;
+                    img.alt = `Photo ${index + 1} from ${year}`;
+                    img.classList.add("thumbnail");
 
-          if (ext === '.mp4') {
-            const video = document.createElement('video');
-            video.src = filePath;
-            video.controls = false;
-            video.muted = true;
-            video.loop = true;
-            video.play();
-            item.appendChild(video);
-          } else {
-            const img = document.createElement('img');
-            img.src = filePath;
-            img.alt = `Photo from ${year}`;
-            item.appendChild(img);
-          }
+                    // Add click functionality to open the image in full size
+                    img.onclick = function() {
+                        window.open(`photos/${year}/${filename}`, '_blank');
+                    };
 
-          item.addEventListener('click', () => {
-            lightbox.classList.add('active');
-            lightboxContent.innerHTML = ext === '.mp4'
-              ? `<video src="${filePath}" controls autoplay></video>`
-              : `<img src="${filePath}" alt="Expanded image" />`;
-          });
+                    // Add the image to the year container
+                    yearContainer.appendChild(img);
+                });
 
-          gallery.appendChild(item);
-        });
-      }
-    });
+                // Append the year container to the gallery
+                document.getElementById("gallery").appendChild(yearContainer);
+            })
+            .catch(error => {
+                console.error('Error loading photos:', error);
+            });
+    }
 
-    lightbox.addEventListener('click', () => {
-      lightbox.classList.remove('active');
-      lightboxContent.innerHTML = '';
-    });
-  </script>
+    // Load photos for all years
+    years.forEach(year => loadPhotos(year));
+</script>
+
 </body>
 </html>
