@@ -1,120 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loons Masters - Photo Gallery</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loons Masters - Photos</title>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    header {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .gallery-item {
-      cursor: pointer;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      background: white;
-      transition: transform 0.2s;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03);
-    }
-    .gallery-item img, .gallery-item video {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .lightbox {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .lightbox-content img, .lightbox-content video {
-      max-width: 90vw;
-      max-height: 90vh;
-    }
-    .lightbox.active {
+    /* Styling for the photo gallery */
+    .photo-gallery {
       display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-evenly;
+    }
+
+    /* Thumbnail image styles */
+    .thumbnail {
+      width: 150px;
+      height: auto;
+      border-radius: 8px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    /* Hover effect for thumbnails */
+    .thumbnail:hover {
+      transform: scale(1.1);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2em;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Loons Masters Photo Gallery</h1>
-    <p>Click a photo or video to view</p>
-  </header>
-  <div class="gallery" id="gallery"></div>
+  <h1>Loons Masters - Photo Gallery</h1>
 
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-content" id="lightbox-content"></div>
-  </div>
+  <div id="photo-container"></div>
 
-<script>
+  <script>
     const years = [2003, 2004, 2005, 2006, 2007, 2008]; // Add more years as needed
+    const imagesByYear = {
+      2003: ["P8100042.JPG", "P8100043.JPG", "P8100044.JPG", "P8100045.JPG"], // Add more images
+      2004: ["P8100101.JPG", "P8100102.JPG", "P8100103.JPG"],
+      2005: ["P8100201.JPG", "P8100202.JPG"],
+      2006: ["P8100301.JPG", "P8100302.JPG"],
+      2007: ["P8100401.JPG", "P8100402.JPG"],
+      2008: ["P8100501.JPG", "P8100502.JPG"],
+      // Add more years and image filenames here
+    };
 
-    // Function to load photos for each year
-    function loadPhotos(year) {
-        fetch(`photos/${year}/photos.json`)
-            .then(response => response.json())
-            .then(data => {
-                const yearContainer = document.createElement("div");
-                yearContainer.classList.add("year-container");
+    let htmlContent = '';
+    years.forEach(year => {
+      htmlContent += `<h2>${year}</h2><div class="photo-gallery">`;
+      imagesByYear[year].forEach(image => {
+        htmlContent += `
+          <a href="photos/${year}/${image}" target="_blank">
+            <img src="photos/${year}/${image}" alt="${year} ${image}" class="thumbnail">
+          </a>`;
+      });
+      htmlContent += `</div>`;
+    });
 
-                // Add a heading for the year
-                const yearHeading = document.createElement("h2");
-                yearHeading.textContent = `Photos from ${year}`;
-                yearContainer.appendChild(yearHeading);
-
-                // Generate photo thumbnails based on the JSON data
-                data.photos.forEach((filename, index) => {
-                    const img = document.createElement("img");
-                    img.src = `photos/${year}/${filename}`;
-                    img.alt = `Photo ${index + 1} from ${year}`;
-                    img.classList.add("thumbnail");
-
-                    // Add click functionality to open the image in full size
-                    img.onclick = function() {
-                        window.open(`photos/${year}/${filename}`, '_blank');
-                    };
-
-                    // Add the image to the year container
-                    yearContainer.appendChild(img);
-                });
-
-                // Append the year container to the gallery
-                document.getElementById("gallery").appendChild(yearContainer);
-            })
-            .catch(error => {
-                console.error('Error loading photos:', error);
-            });
-    }
-
-    // Load photos for all years
-    years.forEach(year => loadPhotos(year));
-</script>
-
+    document.getElementById("photo-container").innerHTML = htmlContent;
+  </script>
 </body>
 </html>
