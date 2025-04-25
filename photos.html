@@ -1,68 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loons Masters - Photos</title>
-  <style>
-    /* Styling for the photo gallery */
-    .photo-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-evenly;
-    }
-
-    /* Thumbnail image styles */
-    .thumbnail {
-      width: 150px;
-      height: auto;
-      border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    /* Hover effect for thumbnails */
-    .thumbnail:hover {
-      transform: scale(1.1);
-    }
-
-    h2 {
-      text-align: center;
-      font-size: 2em;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loons Masters Photos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            margin-top: 10px;
+            background-color: #222;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        nav a:hover {
+            background-color: #444;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .gallery img:hover {
+            opacity: 0.8;
+        }
+    </style>
 </head>
 <body>
-  <h1>Loons Masters - Photo Gallery</h1>
 
-  <div id="photo-container"></div>
+    <header>
+        <h1>Loons Masters Invitational Photos</h1>
+    </header>
 
-  <script>
-    const years = [2003, 2004, 2005, 2006, 2007, 2008]; // Add more years as needed
-    const imagesByYear = {
-      2003: ["P8100042.JPG", "P8100043.JPG", "P8100044.JPG", "P8100045.JPG"], // Add more images
-      2004: ["P8100101.JPG", "P8100102.JPG", "P8100103.JPG"],
-      2005: ["P8100201.JPG", "P8100202.JPG"],
-      2006: ["P8100301.JPG", "P8100302.JPG"],
-      2007: ["P8100401.JPG", "P8100402.JPG"],
-      2008: ["P8100501.JPG", "P8100502.JPG"],
-      // Add more years and image filenames here
-    };
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="profiles.html">Profiles</a>
+        <a href="results.html">Results</a>
+        <a href="trophies.html">Trophies</a>
+        <a href="scores.html">Scores</a>
+        <a href="courses.html">Courses</a>
+        <a href="rules.html">Rules</a>
+    </nav>
 
-    let htmlContent = '';
-    years.forEach(year => {
-      htmlContent += `<h2>${year}</h2><div class="photo-gallery">`;
-      imagesByYear[year].forEach(image => {
-        htmlContent += `
-          <a href="photos/${year}/${image}" target="_blank">
-            <img src="photos/${year}/${image}" alt="${year} ${image}" class="thumbnail">
-          </a>`;
-      });
-      htmlContent += `</div>`;
-    });
+    <div class="gallery" id="photoContainer">
+        <!-- Photos will be displayed here -->
+    </div>
 
-    document.getElementById("photo-container").innerHTML = htmlContent;
-  </script>
+    <script>
+        fetch('photos.json')
+            .then(response => response.json())
+            .then(data => {
+                const photoContainer = document.getElementById('photoContainer');
+                data.forEach(photo => {
+                    const photoElement = document.createElement('div');
+                    photoElement.classList.add('photo');
+                    photoElement.innerHTML = `
+                        <h2>${photo.year}</h2>
+                        <a href="photos/${photo.year}/${photo.filename}" target="_blank">
+                            <img src="photos/${photo.year}/${photo.filename}" alt="Loons Masters ${photo.year} Photo ${photo.filename}">
+                        </a>
+                    `;
+                    photoContainer.appendChild(photoElement);
+                });
+            })
+            .catch(error => console.error('Error loading photos:', error));
+    </script>
+
 </body>
 </html>
