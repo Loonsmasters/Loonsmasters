@@ -61,12 +61,12 @@
       color: #2c3e50;
     }
 
-    .gallery-photos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+	.gallery-photos {
+	  display: grid;
+	  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Force a 2-column minimum */
+	  gap: 1rem;
+	  margin-top: 1rem;
+	}
 
     .gallery-photos a {
       display: block;
