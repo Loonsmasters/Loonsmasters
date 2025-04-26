@@ -3,12 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Loons Masters - Photos</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- SimpleLightbox CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.css" rel="stylesheet">
+  <title>Loons Masters - Photo Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"> <!-- Matching font -->
+  <link href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.1/dist/simple-lightbox.min.css" rel="stylesheet"> <!-- Lightbox CSS -->
+  <link rel="stylesheet" href="styles.css"> <!-- Assuming your common styles file -->
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #eaeaea;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.75rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    .gallery-year {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-top: 2rem;
+      color: #2c3e50;
+    }
+
+    .gallery-photos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .gallery-photos a {
+      display: block;
+      text-align: center;
+    }
+
+    .gallery-photos img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-photos img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      margin: 0;
+      font-size: 0.85rem;
+    }
+  </style>
 </head>
 <body>
+
+<header>
+  <h1>Loons Masters Invitational</h1>
+  <p>Photo Gallery of Past Loons Masters Tournaments</p>
+</header>
 
 <nav>
   <a href="index.html">Home</a>
@@ -21,15 +117,14 @@
   <a href="rules.html">Rules</a>
 </nav>
 
-<h1>Loons Masters - Photo Gallery</h1>
-
-<div id="gallery"></div>
+<main>
+  <div id="gallery"></div>
+</main>
 
 <footer>
   &copy; 2001-2025 Loons Masters Invitational
 </footer>
 
-<!-- SimpleLightbox JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.js"></script>
 
 <script>
@@ -52,6 +147,7 @@
         const link = document.createElement('a');
         link.href = `photos/${year}/${encodeURIComponent(photo)}`;
         link.className = 'gallery-item'; // important for lightbox
+        link.setAttribute('data-lightbox', 'gallery');
 
         const img = document.createElement('img');
         img.src = `photos/${year}/${encodeURIComponent(photo)}`;
@@ -64,7 +160,7 @@
       gallery.appendChild(yearGallery);
     }
 
-    // Initialize the lightbox after images are added
+    // Initialize the lightbox
     new SimpleLightbox('.gallery-item', {});
   }
 
