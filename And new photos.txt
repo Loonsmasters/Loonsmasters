@@ -1,0 +1,14 @@
+Run the Script:
+
+Since you're on a Windows laptop, open the Command Prompt (you can search for "cmd" in the Start menu).
+
+Navigate to your project directory where generatePhotosJSON.js is located. If the project is in C:\Users\jonat\Documents\Loons Masters Invitational\Live Site\Loonsmasters\, run the following command in the Command Prompt:
+
+
+cd C:\Users\jonat\Documents\Loons Masters Invitational\Live Site\Loonsmasters
+
+
+Now, run the script by typing the following command in the Command Prompt:
+
+
+node generatePhotosJSON.js
