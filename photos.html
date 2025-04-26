@@ -1,55 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loons Masters Invitational - Photos</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Ensure the CSS link is correct -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Loons Masters Invitational - Photos</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .gallery-year {
+      margin-bottom: 40px;
+    }
+    .gallery-year h2 {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+    .gallery-photos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .gallery-photos img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .gallery-photos img:hover {
+      transform: scale(1.05);
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Loons Masters Invitational - Photos</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="results.html">Results</a></li>
-                <li><a href="trophies.html">Trophies</a></li>
-                <li><a href="scores.html">Scores</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="rules.html">Rules</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <h1>Loons Masters Invitational - Photos</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="results.html">Results</a></li>
+        <li><a href="trophies.html">Trophies</a></li>
+        <li><a href="scores.html">Scores</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="rules.html">Rules</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <h2>Photos from Previous Years</h2>
-        <div class="photo-gallery">
-            <section class="year-photos" id="2003">
-                <h3>2003</h3>
-                <div class="photos">
-                    <img src="photos/2003/P8100042.JPG" alt="2003 Photo 1">
-                    <img src="photos/2003/P8100043.JPG" alt="2003 Photo 2">
-                    <img src="photos/2003/P8100044.JPG" alt="2003 Photo 3">
-                    <!-- Add more images here -->
-                </div>
-            </section>
+  <main>
+    <h2>Gallery</h2>
+    <div id="photo-gallery"></div>
+  </main>
 
-            <section class="year-photos" id="2004">
-                <h3>2004</h3>
-                <div class="photos">
-                    <img src="photos/2004/P8100045.JPG" alt="2004 Photo 1">
-                    <img src="photos/2004/P8100046.JPG" alt="2004 Photo 2">
-                    <img src="photos/2004/P8100047.JPG" alt="2004 Photo 3">
-                    <!-- Add more images here -->
-                </div>
-            </section>
+  <footer>
+    <p>&copy; 2025 Loons Masters Invitational. All rights reserved.</p>
+  </footer>
 
-            <!-- Repeat for other years -->
-        </div>
-    </main>
+  <script>
+    fetch('photos.json')
+      .then(response => response.json())
+      .then(data => {
+        const gallery = document.getElementById('photo-gallery');
 
-    <footer>
-        <p>&copy; 2025 Loons Masters Invitational. All rights reserved.</p>
-    </footer>
+        Object.keys(data).forEach(year => {
+          const yearSection = document.createElement('div');
+          yearSection.classList.add('gallery-year');
+
+          const yearHeading = document.createElement('h2');
+          yearHeading.textContent = year;
+          yearSection.appendChild(yearHeading);
+
+          const photoContainer = document.createElement('div');
+          photoContainer.classList.add('gallery-photos');
+
+          data[year].forEach(photo => {
+            const img = document.createElement('img');
+            img.src = `photos/${year}/${photo}`;
+            img.alt = `${year} Photo`;
+
+            img.onclick = () => {
+              window.open(`photos/${year}/${photo}`, '_blank');
+            };
+
+            photoContainer.appendChild(img);
+          });
+
+          yearSection.appendChild(photoContainer);
+          gallery.appendChild(yearSection);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading photos:', error);
+      });
+  </script>
 </body>
 </html>
