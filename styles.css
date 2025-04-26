@@ -18,7 +18,7 @@ header h1 {
 }
 
 header p {
-  font-size: 1.1rem;
+  font-size: 1.25rem;  /* Updated to match font size of photos page */
   margin-top: 0; /* Removed default margin */
 }
 
@@ -98,7 +98,7 @@ footer p {
   }
 
   header p {
-    font-size: 1rem;
+    font-size: 1.25rem;  /* Ensuring consistent font size across devices */
   }
 
   nav {
