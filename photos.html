@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Loons Masters - Photos</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- SimpleLightbox CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.css" rel="stylesheet">
+
 </head>
 <body>
 
@@ -58,6 +61,48 @@
 
       gallery.appendChild(yearGallery);
     }
+  }
+
+  loadPhotos();
+</script>
+<!-- SimpleLightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.14.1/simple-lightbox.min.js"></script>
+
+<script>
+  async function loadPhotos() {
+    const response = await fetch('photos.json');
+    const data = await response.json();
+
+    const gallery = document.getElementById('gallery');
+
+    for (const year in data) {
+      const yearHeader = document.createElement('div');
+      yearHeader.className = 'gallery-year';
+      yearHeader.innerText = year;
+      gallery.appendChild(yearHeader);
+
+      const yearGallery = document.createElement('div');
+      yearGallery.className = 'gallery-photos';
+
+      data[year].forEach(photo => {
+        const link = document.createElement('a');
+        link.href = `photos/${year}/${encodeURIComponent(photo)}`;
+        link.className = 'gallery-item'; // important for lightbox
+        link.setAttribute('data-lightbox', 'gallery');
+
+        const img = document.createElement('img');
+        img.src = `photos/${year}/${encodeURIComponent(photo)}`;
+        img.alt = `Photo from ${year}`;
+
+        link.appendChild(img);
+        yearGallery.appendChild(link);
+      });
+
+      gallery.appendChild(yearGallery);
+    }
+
+    // Initialize the lightbox
+    new SimpleLightbox('.gallery-item', {});
   }
 
   loadPhotos();
