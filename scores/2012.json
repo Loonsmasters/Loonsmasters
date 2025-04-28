@@ -1,0 +1,58 @@
+{
+  "sections": [
+    {
+      "title": "Overall",
+      "headers": ["Position", "Player", "Score"],
+      "rows": [
+        ["1", "Jonathan", "-3"],
+        ["2", "Andrew", "+1"],
+        ["3", "David", "+3"]
+      ]
+    },
+    {
+      "title": "Stableford",
+      "headers": ["Position", "Player", "Points"],
+      "rows": [
+        ["1", "Jonathan", "38"],
+        ["2", "Andrew", "35"],
+        ["3", "David", "34"]
+      ]
+    },
+    {
+      "title": "Handicaps",
+      "headers": ["Player", "Handicap"],
+      "rows": [
+        ["Jonathan", "5"],
+        ["Andrew", "8"],
+        ["David", "10"]
+      ]
+    },
+    {
+      "title": "Par 3",
+      "headers": ["Player", "Par 3 Score"],
+      "rows": [
+        ["Jonathan", "10"],
+        ["Andrew", "12"],
+        ["David", "13"]
+      ]
+    },
+    {
+      "title": "Par 5",
+      "headers": ["Player", "Par 5 Score"],
+      "rows": [
+        ["Jonathan", "6"],
+        ["Andrew", "7"],
+        ["David", "8"]
+      ]
+    },
+    {
+      "title": "Soup",
+      "headers": ["Player", "Award"],
+      "rows": [
+        ["Jonathan", "Tomato"],
+        ["Andrew", "Chicken"],
+        ["David", "Minestrone"]
+      ]
+    }
+  ]
+}
