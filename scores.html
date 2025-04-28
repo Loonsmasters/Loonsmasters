@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Loons Masters - Scores</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -12,16 +12,13 @@
       background-color: #eaeaea;
       margin: 0;
       padding: 0;
-      color: #333;
     }
-
     header, footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
       padding: 1rem;
     }
-
     nav {
       background-color: #34495e;
       display: flex;
@@ -30,7 +27,6 @@
       gap: 1rem;
       padding: 0.75rem;
     }
-
     nav a {
       color: white;
       text-decoration: none;
@@ -39,99 +35,94 @@
       border-radius: 5px;
       transition: background-color 0.3s ease;
     }
-
     nav a:hover {
       background-color: #2c3e50;
     }
-
     main {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
       padding: 2rem 1rem;
     }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
     .tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 10px;
       justify-content: center;
       margin-bottom: 2rem;
     }
-
-    .tab-button {
-      padding: 0.5rem 1rem;
+    .tabs button {
       background-color: #34495e;
       color: white;
       border: none;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
-
-    .tab-button:hover, .tab-button.active {
+    .tabs button.active, .tabs button:hover {
       background-color: #2c3e50;
     }
-
     .year-section {
       display: none;
-      animation: fadeIn 0.5s;
     }
-
     .year-section.active {
       display: block;
     }
-
-    .scores-category {
-      margin-bottom: 1.5rem;
+    .sub-tabs {
+      margin: 1rem 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
     }
-
-    .scores-category h2 {
-      font-size: 1.3rem;
-      color: #c0392b;
-      margin-bottom: 0.5rem;
+    .sub-tabs button {
+      background-color: #ddd;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
     }
-
-    .scores-category ul {
-      list-style-type: none;
-      padding: 0;
+    .sub-tabs button.active, .sub-tabs button:hover {
+      background-color: #bbb;
     }
-
-    .scores-category li {
-      margin-bottom: 0.5rem;
+    .score-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-
-    a {
-      color: #2980b9;
-      text-decoration: none;
+    .score-table th, .score-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
     }
-
-    a:hover {
-      text-decoration: underline;
+    .score-table th {
+      background-color: #2c3e50;
+      color: white;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .loading {
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #2c3e50;
     }
-
     footer p {
       margin: 0;
       font-size: 0.85rem;
     }
   </style>
 </head>
-
 <body>
 
 <header>
   <h1>Loons Masters Invitational</h1>
-  <p>Scores Over the Years</p>
+  <p>Historical Scores</p>
 </header>
 
 <nav>
@@ -146,68 +137,120 @@
 </nav>
 
 <main>
-  <div class="tabs" id="tabs"></div>
+  <div class="tabs" id="year-tabs"></div>
 
-  <div id="years-container"></div>
+  <div id="year-sections"></div>
+
+  <div class="loading" id="loading" style="display: none;">Loading scores...</div>
 </main>
 
 <footer>
-  <p>&copy; 2001-2025 Loons Masters Invitational</p>
+  &copy; 2001-2025 Loons Masters Invitational
 </footer>
 
 <script>
-  const years = [
-    2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003
-  ]; // Latest first
+const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
+const scoreTypes = ['overall', 'handicap', 'par3', 'par5', 'soup'];
 
-  const categories = ['Overall', 'Stableford', 'Handicaps', 'Par 3', 'Par 5', 'Soup'];
+const yearTabs = document.getElementById('year-tabs');
+const yearSections = document.getElementById('year-sections');
+const loadingIndicator = document.getElementById('loading');
 
-  const tabs = document.getElementById('tabs');
-  const container = document.getElementById('years-container');
+function createTabs() {
+  years.forEach(year => {
+    const btn = document.createElement('button');
+    btn.innerText = year;
+    btn.onclick = () => showYear(year);
+    yearTabs.appendChild(btn);
 
-  years.forEach((year, index) => {
-    // Create tab button
-    const button = document.createElement('button');
-    button.className = 'tab-button';
-    button.innerText = year;
-    button.onclick = () => activateYear(year);
-    tabs.appendChild(button);
+    const section = document.createElement('div');
+    section.id = `section-${year}`;
+    section.className = 'year-section';
+    section.innerHTML = `
+      <div class="sub-tabs" id="subtabs-${year}"></div>
+      <div id="content-${year}"></div>
+    `;
+    yearSections.appendChild(section);
+  });
+}
 
-    // Create year section
-    const yearDiv = document.createElement('div');
-    yearDiv.className = 'year-section';
-    yearDiv.id = `year-${year}`;
+function showYear(year) {
+  document.querySelectorAll('.tabs button').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.year-section').forEach(section => section.classList.remove('active'));
 
-    categories.forEach(category => {
-      const lowerCategory = category.toLowerCase().replace(/ /g, '');
-      const filename = `scores_json/${year}_${lowerCategory}.json`;
+  document.querySelector(`.tabs button:nth-child(${years.indexOf(year)+1})`).classList.add('active');
+  document.getElementById(`section-${year}`).classList.add('active');
 
-      const categoryDiv = document.createElement('div');
-      categoryDiv.className = 'scores-category';
-      categoryDiv.innerHTML = `
-        <h2>${category}</h2>
-        <p><a href="${filename}" target="_blank">View ${category} Scores for ${year}</a></p>
-      `;
+  createSubTabs(year);
+  showScoreType(year, 'overall');
+}
 
-      yearDiv.appendChild(categoryDiv);
-    });
+function createSubTabs(year) {
+  const subtabs = document.getElementById(`subtabs-${year}`);
+  subtabs.innerHTML = '';
 
-    container.appendChild(yearDiv);
-
-    // Activate first year by default
-    if (index === 0) {
-      button.classList.add('active');
-      yearDiv.classList.add('active');
-    }
+  scoreTypes.forEach(type => {
+    const btn = document.createElement('button');
+    btn.innerText = type.charAt(0).toUpperCase() + type.slice(1);
+    btn.onclick = () => showScoreType(year, type);
+    subtabs.appendChild(btn);
   });
 
-  function activateYear(selectedYear) {
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.year-section').forEach(sec => sec.classList.remove('active'));
+  subtabs.querySelector('button').classList.add('active');
+}
 
-    document.querySelector(`.tab-button:nth-child(${years.indexOf(selectedYear) + 1})`).classList.add('active');
-    document.getElementById(`year-${selectedYear}`).classList.add('active');
+async function showScoreType(year, type) {
+  document.querySelectorAll(`#subtabs-${year} button`).forEach(btn => btn.classList.remove('active'));
+  document.querySelector(`#subtabs-${year} button:nth-child(${scoreTypes.indexOf(type)+1})`).classList.add('active');
+
+  const container = document.getElementById(`content-${year}`);
+  loadingIndicator.style.display = 'block';
+  container.innerHTML = '';
+
+  try {
+    const response = await fetch(`scores_json/${year}_${type}.json`);
+    const data = await response.json();
+    renderTable(container, data);
+  } catch (error) {
+    container.innerHTML = `<p style="text-align:center;">No data available.</p>`;
   }
+
+  loadingIndicator.style.display = 'none';
+}
+
+function renderTable(container, data) {
+  const table = document.createElement('table');
+  table.className = 'score-table';
+
+  // Headers
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  Object.keys(data[0]).forEach(key => {
+    const th = document.createElement('th');
+    th.innerText = key;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
+
+  // Rows
+  const tbody = document.createElement('tbody');
+  data.forEach(item => {
+    const row = document.createElement('tr');
+    Object.values(item).forEach(val => {
+      const td = document.createElement('td');
+      td.innerText = val;
+      row.appendChild(td);
+    });
+    tbody.appendChild(row);
+  });
+  table.appendChild(tbody);
+
+  container.appendChild(table);
+}
+
+createTabs();
+showYear(2013); // default to latest year
 </script>
 
 </body>
