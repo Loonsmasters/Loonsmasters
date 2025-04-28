@@ -14,7 +14,7 @@
       padding: 0;
     }
 
-    header {
+    header, footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
@@ -44,51 +44,48 @@
     }
 
     main {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
       padding: 2rem 1rem;
     }
 
     h1 {
       font-size: 2rem;
+      margin-bottom: 1rem;
     }
 
-    .section-title {
-      font-size: 1.5rem;
-      margin-top: 2rem;
-      color: #2c3e50;
+    details {
+      margin-bottom: 1.5rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    summary {
+      background-color: #34495e;
+      color: white;
+      padding: 1rem;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
-      background: white;
-      border-radius: 8px;
-      overflow: hidden;
+      margin: 1rem 0;
+      font-size: 0.95rem;
     }
 
     th, td {
       padding: 0.75rem;
+      border: 1px solid #ddd;
       text-align: center;
-      border-bottom: 1px solid #ddd;
     }
 
     th {
-      background-color: #34495e;
-      color: white;
-    }
-
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    footer {
       background-color: #2c3e50;
       color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
     }
 
     footer p {
@@ -97,12 +94,11 @@
     }
   </style>
 </head>
-
 <body>
 
 <header>
   <h1>Loons Masters Invitational</h1>
-  <p>Scores & Results</p>
+  <p>Historic Scores and Banter</p>
 </header>
 
 <nav>
@@ -116,21 +112,64 @@
   <a href="rules.html">Rules</a>
 </nav>
 
-<main>
-  <div style="text-align: center; margin-bottom: 2rem;">
-    <label for="year-select" style="font-weight: bold;">Select Year:</label>
-    <select id="year-select" onchange="changeYear(this.value)">
-      <!-- Options will be populated dynamically -->
-    </select>
-  </div>
-  <div id="scores-container"></div>
-</main>
+<main id="scores"></main>
 
 <footer>
   &copy; 2001-2025 Loons Masters Invitational
 </footer>
 
-<script src="js/scores.js"></script>
+<script>
+  async function loadScores() {
+    const years = [2012]; // Add more years as you upload them
+    const categories = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
+
+    const main = document.getElementById('scores');
+
+    for (const year of years) {
+      for (const category of categories) {
+        const jsonPath = `scores_json/${year}_${category}.json`;
+
+        try {
+          const response = await fetch(jsonPath);
+          if (!response.ok) continue; // Skip if file doesn't exist
+
+          const data = await response.json();
+
+          const section = document.createElement('details');
+          section.open = false;
+
+          const summary = document.createElement('summary');
+          summary.textContent = `${year} - ${capitalize(category)}`;
+          section.appendChild(summary);
+
+          const table = document.createElement('table');
+
+          data.forEach((row, idx) => {
+            const tr = document.createElement('tr');
+            row.forEach(cell => {
+              const td = document.createElement(idx === 0 ? 'th' : 'td');
+              td.textContent = cell;
+              tr.appendChild(td);
+            });
+            table.appendChild(tr);
+          });
+
+          section.appendChild(table);
+          main.appendChild(section);
+
+        } catch (error) {
+          console.error(`Could not load ${jsonPath}`, error);
+        }
+      }
+    }
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  loadScores();
+</script>
 
 </body>
 </html>
