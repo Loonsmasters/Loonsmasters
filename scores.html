@@ -49,42 +49,41 @@
       padding: 2rem 1rem;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
     }
 
-    #year-selector {
-      margin: 1rem auto 2rem;
-      text-align: center;
-    }
-
-    #year-selector select {
-      font-size: 1rem;
-      padding: 0.5rem;
-    }
-
-    details {
-      margin-bottom: 1.5rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-
-    summary {
-      background-color: #34495e;
+    .tab-button {
+      background: #34495e;
       color: white;
-      padding: 1rem;
-      font-weight: bold;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-weight: 600;
       cursor: pointer;
+    }
+
+    .tab-button.active {
+      background: #2c3e50;
+    }
+
+    .year-tabs {
+      margin-bottom: 2rem;
+      text-align: center;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin: 1rem 0;
-      font-size: 0.95rem;
+      margin-top: 1rem;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     th, td {
@@ -96,6 +95,10 @@
     th {
       background-color: #2c3e50;
       color: white;
+    }
+
+    .hidden {
+      display: none;
     }
 
     footer p {
@@ -124,26 +127,9 @@
 
 <main>
 
-  <div id="year-selector">
-    <label for="jumpYear">Jump to Year:</label>
-    <select id="jumpYear" onchange="scrollToYear()">
-      <option value="">--Select Year--</option>
-      <option value="2012">2013</option>
-      <option value="2012">2012</option>
-	  <option value="2011">2011</option>
-	  <option value="2010">2010</option>
-      <option value="2012">2009</option>
-      <option value="2012">2008</option>
-	  <option value="2011">2007</option>
-	  <option value="2010">2006</option>
-      <option value="2012">2005</option>
-      <option value="2012">2004</option>
-	  <option value="2011">2003</option>
-      <!-- add more years as needed -->
-    </select>
-  </div>
+  <div class="year-tabs" id="year-tabs"></div>
 
-  <div id="scores"></div>
+  <div id="scores-container"></div>
 
 </main>
 
@@ -152,72 +138,106 @@
 </footer>
 
 <script>
-  async function loadScores() {
-    const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003]; // Expand later
-    const categories = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
+  const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
+  const categories = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
 
-    const main = document.getElementById('scores');
+  async function loadYear(year) {
+    const scoresContainer = document.getElementById('scores-container');
+    scoresContainer.innerHTML = '';
 
-    for (const year of years) {
-      for (const category of categories) {
-        const jsonPath = `scores_json/${year}_${category}.json`;
+    const catTabs = document.createElement('div');
+    catTabs.className = 'tabs';
 
-        try {
-          const response = await fetch(jsonPath);
-          if (!response.ok) continue; // Skip if file doesn't exist
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.textContent = capitalize(cat);
+      btn.className = 'tab-button';
+      btn.onclick = () => showCategory(year, cat);
+      btn.id = `${year}-${cat}-btn`;
+      catTabs.appendChild(btn);
+    });
 
-          const data = await response.json();
+    scoresContainer.appendChild(catTabs);
 
-          const section = document.createElement('details');
-          section.id = `${year}-${category}`;
+    categories.forEach(async cat => {
+      const file = `scores_json/${year}_${cat}.json`;
+      try {
+        const response = await fetch(file);
+        if (!response.ok) throw new Error('Missing');
 
-          // Open the latest year Overall automatically
-          if (year === Math.max(...years) && category === 'overall') {
-            section.open = true;
-          }
+        const data = await response.json();
+        const table = document.createElement('table');
+        table.id = `${year}-${cat}-table`;
+        table.className = 'hidden';
 
-          const summary = document.createElement('summary');
-          summary.textContent = `${year} - ${capitalize(category)}`;
-          section.appendChild(summary);
-
-          const table = document.createElement('table');
-
-          data.forEach((row, idx) => {
-            const tr = document.createElement('tr');
-            row.forEach(cell => {
-              const td = document.createElement(idx === 0 ? 'th' : 'td');
-              td.textContent = cell;
-              tr.appendChild(td);
-            });
-            table.appendChild(tr);
+        data.forEach((row, idx) => {
+          const tr = document.createElement('tr');
+          row.forEach(cell => {
+            const td = document.createElement(idx === 0 ? 'th' : 'td');
+            td.textContent = cell;
+            tr.appendChild(td);
           });
+          table.appendChild(tr);
+        });
 
-          section.appendChild(table);
-          main.appendChild(section);
+        scoresContainer.appendChild(table);
 
-        } catch (error) {
-          console.error(`Could not load ${jsonPath}`, error);
-        }
+      } catch (err) {
+        console.log(`No file: ${file}`);
       }
-    }
+    });
+
+    // Open Overall by default
+    setTimeout(() => {
+      showCategory(year, 'overall');
+    }, 300);
   }
 
-  function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+  function showCategory(year, category) {
+    categories.forEach(cat => {
+      const table = document.getElementById(`${year}-${cat}-table`);
+      const btn = document.getElementById(`${year}-${cat}-btn`);
+      if (table) table.classList.add('hidden');
+      if (btn) btn.classList.remove('active');
+    });
+    const activeTable = document.getElementById(`${year}-${category}-table`);
+    const activeBtn = document.getElementById(`${year}-${category}-btn`);
+    if (activeTable) activeTable.classList.remove('hidden');
+    if (activeBtn) activeBtn.classList.add('active');
   }
 
-  function scrollToYear() {
-    const selected = document.getElementById('jumpYear').value;
-    if (selected) {
-      const section = document.querySelector(`details[id^="${selected}"]`);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-        section.open = true;
-      }
-    }
+  function capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
-  loadScores();
+  function createYearTabs() {
+    const container = document.getElementById('year-tabs');
+    years.forEach(year => {
+      const btn = document.createElement('button');
+      btn.textContent = year;
+      btn.className = 'tab-button';
+      btn.onclick = () => {
+        loadYear(year);
+        highlightYear(year);
+      };
+      btn.id = `year-${year}`;
+      container.appendChild(btn);
+    });
+  }
+
+  function highlightYear(year) {
+    years.forEach(y => {
+      const btn = document.getElementById(`year-${y}`);
+      if (btn) btn.classList.remove('active');
+    });
+    const activeBtn = document.getElementById(`year-${year}`);
+    if (activeBtn) activeBtn.classList.add('active');
+  }
+
+  createYearTabs();
+  loadYear(2013); // load the latest by default
+  highlightYear(2013);
+
 </script>
 
 </body>
