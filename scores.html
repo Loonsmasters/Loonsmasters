@@ -54,6 +54,16 @@
       margin-bottom: 1rem;
     }
 
+    #year-selector {
+      margin: 1rem auto 2rem;
+      text-align: center;
+    }
+
+    #year-selector select {
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+
     details {
       margin-bottom: 1.5rem;
       background: white;
@@ -112,7 +122,30 @@
   <a href="rules.html">Rules</a>
 </nav>
 
-<main id="scores"></main>
+<main>
+
+  <div id="year-selector">
+    <label for="jumpYear">Jump to Year:</label>
+    <select id="jumpYear" onchange="scrollToYear()">
+      <option value="">--Select Year--</option>
+      <option value="2012">2013</option>
+      <option value="2012">2012</option>
+	  <option value="2011">2011</option>
+	  <option value="2010">2010</option>
+      <option value="2012">2009</option>
+      <option value="2012">2008</option>
+	  <option value="2011">2007</option>
+	  <option value="2010">2006</option>
+      <option value="2012">2005</option>
+      <option value="2012">2004</option>
+	  <option value="2011">2003</option>
+      <!-- add more years as needed -->
+    </select>
+  </div>
+
+  <div id="scores"></div>
+
+</main>
 
 <footer>
   &copy; 2001-2025 Loons Masters Invitational
@@ -120,7 +153,7 @@
 
 <script>
   async function loadScores() {
-    const years = ["2013","2012","2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003"]; // Add more years as you upload them
+    const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003]; // Expand later
     const categories = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
 
     const main = document.getElementById('scores');
@@ -136,7 +169,12 @@
           const data = await response.json();
 
           const section = document.createElement('details');
-          section.open = false;
+          section.id = `${year}-${category}`;
+
+          // Open the latest year Overall automatically
+          if (year === Math.max(...years) && category === 'overall') {
+            section.open = true;
+          }
 
           const summary = document.createElement('summary');
           summary.textContent = `${year} - ${capitalize(category)}`;
@@ -166,6 +204,17 @@
 
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function scrollToYear() {
+    const selected = document.getElementById('jumpYear').value;
+    if (selected) {
+      const section = document.querySelector(`details[id^="${selected}"]`);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+        section.open = true;
+      }
+    }
   }
 
   loadScores();
