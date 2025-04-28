@@ -117,6 +117,12 @@
 </nav>
 
 <main>
+  <div style="text-align: center; margin-bottom: 2rem;">
+    <label for="year-select" style="font-weight: bold;">Select Year:</label>
+    <select id="year-select" onchange="changeYear(this.value)">
+      <!-- Options will be populated dynamically -->
+    </select>
+  </div>
   <div id="scores-container"></div>
 </main>
 

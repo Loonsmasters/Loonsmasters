@@ -1,8 +1,11 @@
+const availableYears = ["2012"]; // <- you can add more years here later
+
 async function loadScores(year = "2012") {
+  const container = document.getElementById('scores-container');
+  container.innerHTML = ""; // Clear previous content
+
   const response = await fetch(`scores/${year}.json`);
   const data = await response.json();
-
-  const container = document.getElementById('scores-container');
 
   const title = document.createElement('h2');
   title.innerText = `${year} Scores`;
@@ -45,4 +48,23 @@ async function loadScores(year = "2012") {
   });
 }
 
+// Populate dropdown
+function populateYearDropdown() {
+  const select = document.getElementById('year-select');
+  availableYears.sort((a, b) => b - a); // Sort descending
+  availableYears.forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    select.appendChild(option);
+  });
+}
+
+// Change year
+function changeYear(year) {
+  loadScores(year);
+}
+
+// On page load
+populateYearDropdown();
 loadScores();
