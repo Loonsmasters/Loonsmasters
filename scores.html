@@ -6,6 +6,7 @@
   <title>Loons Masters - Scores</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+
   <style>
     body {
       font-family: 'Inter', sans-serif;
@@ -14,7 +15,7 @@
       padding: 0;
     }
 
-    header, footer {
+    header {
       background-color: #2c3e50;
       color: white;
       text-align: center;
@@ -44,52 +45,60 @@
     }
 
     main {
-      max-width: 1200px;
+      max-width: 1000px;
       margin: auto;
       padding: 2rem 1rem;
     }
 
     .tabs {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 0.5rem;
-      justify-content: center;
       margin-bottom: 2rem;
     }
 
-    .tab-button {
-      background: #34495e;
+    .tabs button {
+      background-color: #34495e;
       color: white;
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 0.75rem 1.5rem;
       border-radius: 5px;
-      font-weight: 600;
       cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
     }
 
-    .tab-button.active {
-      background: #2c3e50;
+    .tabs button:hover,
+    .tabs button.active {
+      background-color: #2c3e50;
     }
 
-    .year-tabs {
+    .year-block {
       margin-bottom: 2rem;
-      text-align: center;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .year-block.active {
+      display: block;
+      opacity: 1;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
-      background: white;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     th, td {
       padding: 0.75rem;
-      border: 1px solid #ddd;
       text-align: center;
+      border-bottom: 1px solid #ddd;
     }
 
     th {
@@ -97,21 +106,21 @@
       color: white;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    footer p {
-      margin: 0;
-      font-size: 0.85rem;
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
     }
   </style>
 </head>
+
 <body>
 
 <header>
   <h1>Loons Masters Invitational</h1>
-  <p>Historic Scores and Banter</p>
+  <p>Scores, Handicaps & Achievements</p>
 </header>
 
 <nav>
@@ -126,11 +135,16 @@
 </nav>
 
 <main>
-
-  <div class="year-tabs" id="year-tabs"></div>
+  <div class="tabs">
+    <button class="tab-button active" data-type="overall">Overall</button>
+    <button class="tab-button" data-type="stableford">Stableford</button>
+    <button class="tab-button" data-type="handicap">Handicap</button>
+    <button class="tab-button" data-type="par3">Par 3</button>
+    <button class="tab-button" data-type="par5">Par 5</button>
+    <button class="tab-button" data-type="soup">Soup</button>
+  </div>
 
   <div id="scores-container"></div>
-
 </main>
 
 <footer>
@@ -138,106 +152,81 @@
 </footer>
 
 <script>
-  const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
-  const categories = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
+const years = [
+  "2013", "2012", "2011", "2010", "2009", "2008",
+  "2007", "2006", "2005", "2004", "2003"
+];
 
-  async function loadYear(year) {
-    const scoresContainer = document.getElementById('scores-container');
-    scoresContainer.innerHTML = '';
+const container = document.getElementById('scores-container');
+let activeType = 'overall';
 
-    const catTabs = document.createElement('div');
-    catTabs.className = 'tabs';
+function createTable(year, data) {
+  const div = document.createElement('div');
+  div.className = 'year-block';
+  div.id = `${year}_${activeType}`;
 
-    categories.forEach(cat => {
-      const btn = document.createElement('button');
-      btn.textContent = capitalize(cat);
-      btn.className = 'tab-button';
-      btn.onclick = () => showCategory(year, cat);
-      btn.id = `${year}-${cat}-btn`;
-      catTabs.appendChild(btn);
+  const h2 = document.createElement('h2');
+  h2.textContent = year;
+  div.appendChild(h2);
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const trHead = document.createElement('tr');
+  Object.keys(data[0]).forEach(key => {
+    const th = document.createElement('th');
+    th.textContent = key;
+    trHead.appendChild(th);
+  });
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  data.forEach(row => {
+    const tr = document.createElement('tr');
+    Object.values(row).forEach(value => {
+      const td = document.createElement('td');
+      td.textContent = value;
+      tr.appendChild(td);
     });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
 
-    scoresContainer.appendChild(catTabs);
+  div.appendChild(table);
+  return div;
+}
 
-    categories.forEach(async cat => {
-      const file = `scores_json/${year}_${cat}.json`;
-      try {
-        const response = await fetch(file);
-        if (!response.ok) throw new Error('Missing');
-
-        const data = await response.json();
-        const table = document.createElement('table');
-        table.id = `${year}-${cat}-table`;
-        table.className = 'hidden';
-
-        data.forEach((row, idx) => {
-          const tr = document.createElement('tr');
-          row.forEach(cell => {
-            const td = document.createElement(idx === 0 ? 'th' : 'td');
-            td.textContent = cell;
-            tr.appendChild(td);
-          });
-          table.appendChild(tr);
-        });
-
-        scoresContainer.appendChild(table);
-
-      } catch (err) {
-        console.log(`No file: ${file}`);
-      }
+async function loadScores(type) {
+  container.innerHTML = '';
+  for (const year of years) {
+    try {
+      const res = await fetch(`scores_json/${year}_${type}.json`);
+      const data = await res.json();
+      const yearBlock = createTable(year, data);
+      container.appendChild(yearBlock);
+    } catch (error) {
+      console.log(`No data for ${year} (${type})`);
+    }
+  }
+  // Make the whole block fade nicely
+  setTimeout(() => {
+    const activeYears = document.querySelectorAll('.year-block');
+    activeYears.forEach(block => {
+      block.classList.add('active');
     });
+  }, 100);
+}
 
-    // Open Overall by default
-    setTimeout(() => {
-      showCategory(year, 'overall');
-    }, 300);
-  }
+document.querySelectorAll('.tab-button').forEach(button => {
+  button.addEventListener('click', (e) => {
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    e.target.classList.add('active');
+    activeType = e.target.dataset.type;
+    loadScores(activeType);
+  });
+});
 
-  function showCategory(year, category) {
-    categories.forEach(cat => {
-      const table = document.getElementById(`${year}-${cat}-table`);
-      const btn = document.getElementById(`${year}-${cat}-btn`);
-      if (table) table.classList.add('hidden');
-      if (btn) btn.classList.remove('active');
-    });
-    const activeTable = document.getElementById(`${year}-${category}-table`);
-    const activeBtn = document.getElementById(`${year}-${category}-btn`);
-    if (activeTable) activeTable.classList.remove('hidden');
-    if (activeBtn) activeBtn.classList.add('active');
-  }
-
-  function capitalize(s) {
-    return s.charAt(0).toUpperCase() + s.slice(1);
-  }
-
-  function createYearTabs() {
-    const container = document.getElementById('year-tabs');
-    years.forEach(year => {
-      const btn = document.createElement('button');
-      btn.textContent = year;
-      btn.className = 'tab-button';
-      btn.onclick = () => {
-        loadYear(year);
-        highlightYear(year);
-      };
-      btn.id = `year-${year}`;
-      container.appendChild(btn);
-    });
-  }
-
-  function highlightYear(year) {
-    years.forEach(y => {
-      const btn = document.getElementById(`year-${y}`);
-      if (btn) btn.classList.remove('active');
-    });
-    const activeBtn = document.getElementById(`year-${year}`);
-    if (activeBtn) activeBtn.classList.add('active');
-  }
-
-  createYearTabs();
-  loadYear(2013); // load the latest by default
-  highlightYear(2013);
-
+loadScores(activeType);
 </script>
 
 </body>
