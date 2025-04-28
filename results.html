@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loons Masters - Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #eaeaea;
+      margin: 0;
+      padding: 0;
+    }
+    header, footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.75rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+    main {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    h1 {
+      font-size: 2rem;
+      text-align: center;
+    }
+    .accordion {
+      margin-top: 2rem;
+    }
+    .accordion-item {
+      background: white;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .accordion-header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .accordion-body {
+      display: none;
+      padding: 1rem;
+    }
+    .accordion-body table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .accordion-body th, .accordion-body td {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+    .hall-of-fame {
+      margin-top: 4rem;
+    }
+    .hall-of-fame h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .hall-of-fame table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .hall-of-fame th, .hall-of-fame td {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Loons Masters Invitational</h1>
+    <p>Yearly Trophy Winners</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="results.html">Results</a>
+    <a href="trophies.html">Trophies</a>
+    <a href="scores.html">Scores</a>
+    <a href="photos.html">Photos</a>
+    <a href="courses.html">Courses</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+
+  <main>
+    <div class="accordion" id="resultsAccordion">
+      <!-- One accordion item per year -->
+      
+      <div class="accordion-item">
+        <div class="accordion-header">2013</div>
+        <div class="accordion-body">
+          <table>
+            <thead>
+              <tr>
+                <th>Trophy</th>
+                <th>Winner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Loons Masters Champion</td><td>Ernie Als</td></tr>
+              <tr><td>Jesus is my coach</td><td>Kev & Sparky</td></tr>
+              <tr><td>Sq Chop</td><td>Ernie Als</td></tr>
+              <tr><td>Lord Sidney Bikerstaff Trophy</td><td>Duffy</td></tr>
+              <tr><td>Par 5's</td><td>Angus</td></tr>
+              <tr><td>Par 3's</td><td>Naran</td></tr>
+              <tr><td>All the Gear, No Idea</td><td>Stu</td></tr>
+              <tr><td>The Pink Tee</td><td>Mr Ed</td></tr>
+              <tr><td>Eiffel Tower</td><td>Naran</td></tr>
+              <tr><td>Baxters</td><td>Woody</td></tr>
+              <tr><td>Mr Ed</td><td>Sparky</td></tr>
+              <tr><td>The Davies Turd Trophy</td><td>Duffy</td></tr>
+              <tr><td>Golf Mug</td><td>Stu</td></tr>
+              <tr><td>Big Banana</td><td>Stu</td></tr>
+              <tr><td>Golf Bag Bar</td><td>Ernie Als</td></tr>
+              <tr><td>4 Warm Piss Lagers</td><td>Kev</td></tr>
+              <tr><td>Man on Fire</td><td>Kev & Del - 41</td></tr>
+              <tr><td>Le Choke</td><td>Narna</td></tr>
+              <tr><td>Bandit</td><td>Sparky</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add more years here in exactly the same format -->
+
+    </div>
+
+    <div class="hall-of-fame">
+      <h2>🏆 Hall of Fame - Most Wins</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Trophy</th>
+            <th>Top Winner(s)</th>
+            <th>Number of Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Loons Masters Champion</td><td>Kev</td><td>4</td></tr>
+          <tr><td>Jesus is my coach</td><td>Angus</td><td>3</td></tr>
+          <tr><td>Sq Chop</td><td>Ernie Als</td><td>2</td></tr>
+          <tr><td>Lord Sidney Trophy</td><td>Duffy</td><td>2</td></tr>
+          <!-- Add more rows as you calculate them -->
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2001-2025 Loons Masters Invitational</p>
+  </footer>
+
+  <script>
+    // Accordion functionality
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const body = header.nextElementSibling;
+        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+
+</body>
+</html>
