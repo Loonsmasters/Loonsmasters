@@ -115,3 +115,15 @@ footer {
     font-size: 0.95rem;
   }
 }
+<style>
+/* Replace your .accordion-body style with this: */
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 1rem;
+}
+.accordion-body table {
+  margin-top: 1rem;
+}
+</style>

@@ -185,15 +185,32 @@
     <p>&copy; 2001-2025 Loons Masters Invitational</p>
   </footer>
 
-  <script>
-    // Accordion functionality
-    document.querySelectorAll('.accordion-header').forEach(header => {
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.accordion-header');
+
+    items.forEach(header => {
       header.addEventListener('click', () => {
         const body = header.nextElementSibling;
-        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+
+        if (body.style.maxHeight) {
+          body.style.maxHeight = null;
+        } else {
+          // Close any open ones first
+          document.querySelectorAll('.accordion-body').forEach(b => b.style.maxHeight = null);
+          body.style.maxHeight = body.scrollHeight + "px";
+        }
       });
     });
-  </script>
+
+    // Auto-open the most recent year (first item)
+    const firstBody = document.querySelector('.accordion-body');
+    if (firstBody) {
+      firstBody.style.maxHeight = firstBody.scrollHeight + "px";
+    }
+  });
+</script>
+
 
 </body>
 </html>
