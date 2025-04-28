@@ -1,4 +1,4 @@
-const availableYears = ["2012"]; // <- you can add more years here later
+const availableYears = ["2012", "2011", "2010", "2009"]; // <- you can add more years here later
 
 async function loadScores(year = "2012") {
   const container = document.getElementById('scores-container');
