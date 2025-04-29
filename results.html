@@ -8,26 +8,39 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     .accordion {
-      margin: 2rem auto;
       max-width: 900px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #fff;
+      margin: 2rem auto;
     }
     .accordion-item {
-      border-bottom: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
     }
     .accordion-header {
-      padding: 1rem;
-      background-color: #34495e;
+      background-color: #2c3e50;
       color: white;
+      padding: 1rem 1.5rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       font-weight: bold;
+      position: relative;
+    }
+    .accordion-header::before {
+      content: '\25BA';
+      margin-right: 0.5rem;
+      transition: transform 0.3s;
+    }
+    .accordion-header.active::before {
+      transform: rotate(90deg);
     }
     .accordion-body {
       display: none;
-      padding: 1rem;
-      background-color: #f9f9f9;
+      background: #fff;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #ccc;
     }
     .accordion-body.active {
       display: block;
@@ -35,15 +48,15 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 2rem;
+      margin-top: 1rem;
     }
     th, td {
       padding: 0.75rem;
+      border: 1px solid #ddd;
       text-align: left;
-      border: 1px solid #ccc;
     }
     th {
-      background-color: #2c3e50;
+      background-color: #34495e;
       color: white;
     }
   </style>
@@ -96,7 +109,6 @@
           </table>
         </div>
       </div>
-
       <div class="accordion-item">
         <div class="accordion-header">2012</div>
         <div class="accordion-body">
@@ -127,7 +139,6 @@
           </table>
         </div>
       </div>
-
       <div class="accordion-item">
         <div class="accordion-header">2011</div>
         <div class="accordion-body">
@@ -153,12 +164,33 @@
               <tr><td>Man on Fire</td><td>Sparky - 41</td></tr>
               <tr><td>Le Choke</td><td>Del</td></tr>
               <tr><td>The Bandit</td><td>Duffy</td></tr>
-              <tr><td>Closest to the Pin - no trophy</td><td> </td></tr>
+              <tr><td>Closest to the Pin - no trophy</td><td></td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </section>
+	
+    <div class="hall-of-fame">
+      <h2>🏆 Hall of Fame - Most Wins</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Trophy</th>
+            <th>Top Winner(s)</th>
+            <th>Number of Wins</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Loons Masters Champion</td><td>Kev</td><td>4</td></tr>
+          <tr><td>Jesus is my coach</td><td>Angus</td><td>3</td></tr>
+          <tr><td>Sq Chop</td><td>Ernie Als</td><td>2</td></tr>
+          <tr><td>Lord Sidney Trophy</td><td>Duffy</td><td>2</td></tr>
+          <!-- Add more rows as you calculate them -->
+        </tbody>
+      </table>
+    </div>
+
   </main>
 
   <footer>
@@ -168,6 +200,7 @@
   <script>
     document.querySelectorAll('.accordion-header').forEach(header => {
       header.addEventListener('click', () => {
+        header.classList.toggle('active');
         const body = header.nextElementSibling;
         body.classList.toggle('active');
       });
