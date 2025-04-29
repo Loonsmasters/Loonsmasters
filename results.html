@@ -24,13 +24,11 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.75rem;
       font-weight: bold;
-      position: relative;
     }
     .accordion-header::before {
       content: '\25BA';
-      margin-right: 0.5rem;
       transition: transform 0.3s;
     }
     .accordion-header.active::before {
@@ -109,7 +107,7 @@
               <tr><td>Bandit</td><td>Sparky</td></tr>
             </tbody>
           </table>
-        </div>
+  </div>
       </div>
       <div class="accordion-item">
         <div class="accordion-header">2012</div>
