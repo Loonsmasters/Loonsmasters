@@ -7,16 +7,76 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .accordion {
-      max-width: 900px;
-      margin: 2rem auto;
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
     }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem 1rem;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #34495e;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #2c3e50;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        overflow-x: auto;
+        white-space: nowrap;
+        justify-content: flex-start;
+      }
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+
+    .accordion {
+      margin-bottom: 2rem;
+    }
+
     .accordion-item {
       border-radius: 8px;
       overflow: hidden;
       margin-bottom: 1rem;
       border: 1px solid #ccc;
     }
+
     .accordion-header {
       background-color: #2c3e50;
       color: white;
@@ -27,72 +87,68 @@
       gap: 0.75rem;
       font-weight: bold;
     }
+
     .accordion-header::before {
       content: '\25BA';
       transition: transform 0.3s;
     }
+
     .accordion-header.active::before {
       transform: rotate(90deg);
     }
+
     .accordion-body {
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.4s ease;
       padding: 0 1rem;
     }
+
     .accordion-body.active {
       max-height: 3000px;
       transition: max-height 0.6s ease;
       padding: 1rem 1.5rem;
     }
+
     table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
     }
+
     th, td {
       padding: 0.75rem;
       border: 1px solid #ddd;
       text-align: left;
     }
+
     th {
       background-color: #34495e;
       color: white;
     }
 
-    /* Responsive horizontal nav for mobile */
-	nav {
-	  display: flex;
-	  justify-content: center;
-	  flex-wrap: wrap;
-	  gap: 1rem;
-	  padding: 1rem 0;
-	  background-color: #34495e;
-	}
+    .hall-of-fame {
+      margin-top: 3rem;
+    }
 
-	nav a {
-	  color: white;
-	  text-decoration: none;
-	  font-weight: 600;
-	  padding: 0.5rem 1rem;
-	  border-radius: 5px;
-	  transition: background-color 0.3s ease;
-	}
+    .hall-of-fame h2 {
+      color: #c0392b;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
 
-	nav a:hover {
-	  background-color: #2c3e50;
-	}
-
-	@media (max-width: 768px) {
-	  nav {
-		justify-content: flex-start;
-		overflow-x: auto;
-		white-space: nowrap;
-	  }
-	}
-
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.85rem;
+      margin-top: 3rem;
+    }
   </style>
 </head>
+<body>
+
   <header>
     <h1>Loons Masters Invitational</h1>
     <p>Annual Trophy Winners</p>
@@ -224,8 +280,8 @@
 
   </main>
 
-  <footer>
-    <p>&copy; 2001-2025 Loons Masters Invitational</p>
+<footer>
+    <p>&copy; 2001–2025 Loons Masters Invitational</p>
   </footer>
 
   <script>
@@ -237,5 +293,6 @@
       });
     });
   </script>
+
 </body>
 </html>
