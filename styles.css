@@ -24,30 +24,29 @@ header p {
 
 /* SCROLLABLE HORIZONTAL NAV */
 nav {
+  display: block;
   background-color: #34495e;
-  display: flex;
-  justify-content: center;
   overflow-x: auto;
   white-space: nowrap;
-  padding: 0.75rem;
+  padding: 0.75rem 0.5rem;
   scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  text-align: center;
 }
-
 nav::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
 nav a {
-  flex: 0 0 auto;
+  display: inline-block;
   color: white;
   text-decoration: none;
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  white-space: nowrap;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
-
 nav a:hover {
   background-color: #2c3e50;
 }
