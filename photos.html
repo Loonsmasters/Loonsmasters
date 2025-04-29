@@ -38,12 +38,24 @@
     .gallery-photos img:hover {
       transform: scale(1.05);
     }
+
+    nav {
+      justify-content: center !important;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        justify-content: flex-start !important;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Loons Masters Invitational</h1>
-    <p>Photo Gallery of Past Loons Masters Tournaments</p>
+    <p>Photo Gallery through the years</p>
   </header>
 
   <nav>
