@@ -1,222 +1,160 @@
+<!-- SCORES.HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Loons Masters Invitational - Scores</title>
+  <title>Loons Masters - Scores</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"> <!-- Your main site styling -->
+  <link rel="stylesheet" href="styles.css">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      background-color: #eaeaea;
-      color: #333;
+    .accordion {
+      margin: 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
     }
-
-    header {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
+    .accordion summary {
+      font-size: 1.1rem;
       padding: 1rem;
-    }
-
-    nav {
-      background-color: #34495e;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 0.75rem;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-
-    nav a:hover {
-      background-color: #2c3e50;
-    }
-
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 2rem 1rem;
-    }
-
-    .accordion-header {
       background-color: #34495e;
       color: white;
       cursor: pointer;
-      padding: 1rem;
-      font-weight: 600;
-      font-size: 1.2rem;
-      border-bottom: 1px solid #2c3e50;
+    }
+    .tab-buttons {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      flex-wrap: wrap;
+      background: #ddd;
+      border-bottom: 1px solid #ccc;
     }
-
-    .accordion-body {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-      padding: 0 1rem;
-      background-color: white;
+    .tab-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: #ccc;
+      cursor: pointer;
     }
-
-    .accordion-body table {
+    .tab-buttons button.active {
+      background: #2c3e50;
+      color: white;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+      padding: 1rem;
+      background: #f4f4f4;
+      overflow-x: auto;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 1rem;
     }
-
-    .accordion-body th, .accordion-body td {
+    table, th, td {
       border: 1px solid #ccc;
-      padding: 0.75rem;
+    }
+    th, td {
+      padding: 0.5rem;
       text-align: center;
     }
-
-    .accordion-body th {
-      background-color: #2c3e50;
+    th {
+      background: #2c3e50;
       color: white;
-    }
-
-    .arrow {
-      transition: transform 0.3s ease;
-    }
-
-    .accordion-header.open .arrow {
-      transform: rotate(90deg);
-    }
-
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
+  <header>
+    <h1>Loons Masters Invitational</h1>
+    <p>Scores by Year and Category</p>
+  </header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="results.html">Results</a>
+    <a href="trophies.html">Trophies</a>
+    <a href="scores.html">Scores</a>
+    <a href="photos.html">Photos</a>
+    <a href="courses.html">Courses</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+  <main>
+    <div id="scores-container"></div>
+  </main>
+  <footer>
+    <p>&copy; 2001-2025 Loons Masters Invitational</p>
+  </footer>
+  <script>
+    const scoreTypes = ['overall', 'stableford', 'handicap', 'par3', 'par5', 'soup'];
 
-<header>
-  <h1>Loons Masters Invitational</h1>
-  <p>Scores and Tournament Results</p>
-</header>
+    async function loadScores() {
+      const container = document.getElementById('scores-container');
+      const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="profiles.html">Profiles</a>
-  <a href="results.html">Results</a>
-  <a href="trophies.html">Trophies</a>
-  <a href="scores.html">Scores</a>
-  <a href="photos.html">Photos</a>
-  <a href="courses.html">Courses</a>
-  <a href="rules.html">Rules</a>
-</nav>
+      for (const year of years) {
+        const section = document.createElement('details');
+        section.classList.add('accordion');
+        section.innerHTML = `<summary>${year}</summary><div class="tab-buttons"></div><div class="tabs"></div>`;
 
-<main>
-  <div id="accordion"></div>
-</main>
+        const tabButtons = section.querySelector('.tab-buttons');
+        const tabContentWrapper = section.querySelector('.tabs');
 
-<footer>
-  &copy; 2001-2025 Loons Masters Invitational
-</footer>
+        for (const type of scoreTypes) {
+          const jsonPath = `scores_json/${year}_${type}.json`;
+          try {
+            const response = await fetch(jsonPath);
+            if (!response.ok) continue;
+            const data = await response.json();
 
-<script>
-  async function loadScores() {
-    const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
+            // Create tab button
+            const btn = document.createElement('button');
+            btn.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            btn.onclick = () => {
+              const contents = section.querySelectorAll('.tab-content');
+              const buttons = section.querySelectorAll('.tab-buttons button');
+              contents.forEach(c => c.classList.remove('active'));
+              buttons.forEach(b => b.classList.remove('active'));
+              tabContent.classList.add('active');
+              btn.classList.add('active');
+            };
+            tabButtons.appendChild(btn);
 
-    const accordion = document.getElementById('accordion');
-
-    for (const year of years) {
-      const header = document.createElement('div');
-      header.className = 'accordion-header';
-      header.innerHTML = `<span class="arrow">&#9654;</span> ${year}`;
-      accordion.appendChild(header);
-
-      const body = document.createElement('div');
-      body.className = 'accordion-body';
-
-      try {
-        const response = await fetch(`scores_json/${year}_overall.json`);
-        const data = await response.json();
-
-        const table = document.createElement('table');
-        const thead = document.createElement('thead');
-        const tbody = document.createElement('tbody');
-
-        if (data.length) {
-          const headers = Object.keys(data[0]);
-          const headRow = document.createElement('tr');
-          headers.forEach(h => {
-            const th = document.createElement('th');
-            th.textContent = h;
-            headRow.appendChild(th);
-          });
-          thead.appendChild(headRow);
-
-          data.forEach(row => {
-            const tr = document.createElement('tr');
-            headers.forEach(h => {
-              const td = document.createElement('td');
-              td.textContent = row[h];
-              tr.appendChild(td);
+            // Create tab content
+            const tabContent = document.createElement('div');
+            tabContent.className = 'tab-content';
+            let html = '<table><thead><tr>';
+            Object.keys(data[0] || {}).forEach(key => {
+              html += `<th>${key}</th>`;
             });
-            tbody.appendChild(tr);
-          });
+            html += '</tr></thead><tbody>';
+            data.forEach(row => {
+              html += '<tr>' + Object.values(row).map(v => `<td>${v}</td>`).join('') + '</tr>';
+            });
+            html += '</tbody></table>';
+            tabContent.innerHTML = html;
+            tabContentWrapper.appendChild(tabContent);
 
-          table.appendChild(thead);
-          table.appendChild(tbody);
+          } catch (e) {
+            console.warn(`No file for ${year} ${type}`);
+          }
         }
 
-        body.appendChild(table);
-      } catch (err) {
-        body.innerHTML = `<p style="padding:1rem; color:#c0392b;">No data for ${year}</p>`;
-      }
+        // Activate first tab
+        const firstBtn = tabButtons.querySelector('button');
+        const firstTab = tabContentWrapper.querySelector('.tab-content');
+        if (firstBtn && firstTab) {
+          firstBtn.classList.add('active');
+          firstTab.classList.add('active');
+        }
 
-      accordion.appendChild(body);
+        container.appendChild(section);
+      }
     }
-  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    loadScores().then(() => {
-      const headers = document.querySelectorAll('.accordion-header');
-
-      headers.forEach(header => {
-        header.addEventListener('click', () => {
-          const openHeader = document.querySelector('.accordion-header.open');
-          if (openHeader && openHeader !== header) {
-            openHeader.classList.remove('open');
-            openHeader.nextElementSibling.style.maxHeight = null;
-          }
-
-          header.classList.toggle('open');
-          const body = header.nextElementSibling;
-          if (header.classList.contains('open')) {
-            body.style.maxHeight = body.scrollHeight + "px";
-          } else {
-            body.style.maxHeight = null;
-          }
-        });
-      });
-
-      const firstHeader = document.querySelector('.accordion-header');
-      if (firstHeader) {
-        firstHeader.classList.add('open');
-        const firstBody = firstHeader.nextElementSibling;
-        firstBody.style.maxHeight = firstBody.scrollHeight + "px";
-      }
-    });
-  });
-</script>
-
+    loadScores();
+  </script>
 </body>
 </html>
