@@ -7,7 +7,64 @@
   <title>Loons Masters - Scores</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
+  <style>
+    .accordion {
+      margin: 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .accordion summary {
+      font-size: 1.1rem;
+      padding: 1rem;
+      background-color: #34495e;
+      color: white;
+      cursor: pointer;
+    }
+    .tab-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      background: #ddd;
+      border-bottom: 1px solid #ccc;
+    }
+    .tab-buttons button {
+      flex: 1;
+      padding: 0.75rem;
+      border: none;
+      background: #ccc;
+      cursor: pointer;
+    }
+    .tab-buttons button.active {
+      background: #2c3e50;
+      color: white;
+      font-weight: bold;
+    }
+    .tab-content {
+      display: none;
+      padding: 1rem;
+      background: #f4f4f4;
+      overflow-x: auto;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 0.5rem;
+      text-align: center;
+    }
+    th {
+      background: #2c3e50;
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <header>
