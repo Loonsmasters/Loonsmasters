@@ -115,31 +115,74 @@
   </footer>
 
   <script>
-    const fameData = [
-      { player: 'Kev', masters: 3, jesus: 1, par5: 2, par3: 2, eiffel: 0, fire: 1 },
-      { player: 'Angus', masters: 2, jesus: 3, par5: 1, par3: 1, eiffel: 0, fire: 0 },
-      { player: 'Narna', masters: 1, jesus: 0, par5: 0, par3: 2, eiffel: 1, fire: 1 },
-      { player: 'Ernie Als', masters: 2, jesus: 0, par5: 0, par3: 0, eiffel: 0, fire: 0 }
-    ];
+    async function fetchResultsData() {
+      const response = await fetch('trophies_by_year.json');
+      return await response.json();
+    }
 
-    const shameData = [
-      { player: 'Mr Ed', sidney: 2, atgni: 1, pink: 1, baxters: 1, banana: 0, choke: 0 },
-      { player: 'Del', sidney: 0, atgni: 0, pink: 0, baxters: 1, banana: 0, choke: 1 },
-      { player: 'Stu', sidney: 0, atgni: 0, pink: 1, baxters: 0, banana: 1, choke: 0 },
-      { player: 'Duffy', sidney: 1, atgni: 0, pink: 0, baxters: 0, banana: 0, choke: 0 }
-    ];
+    function buildLeaderboards(data, fameTrophies, shameTrophies) {
+      const fameScores = {};
+      const shameScores = {};
 
-    const fameTable = document.getElementById('fame-table');
-    fameData.forEach(row => {
-      const total = row.masters + row.jesus + row.par5 + row.par3 + row.eiffel + row.fire;
-      fameTable.innerHTML += `<tr><td>${row.player}</td><td>${row.masters}</td><td>${row.jesus}</td><td>${row.par5}</td><td>${row.par3}</td><td>${row.eiffel}</td><td>${row.fire}</td><td>${total}</td></tr>`;
-    });
+      for (const year in data) {
+        const yearData = data[year];
+        for (const trophy in yearData) {
+          const winner = yearData[trophy];
+          if (!winner) continue;
 
-    const shameTable = document.getElementById('shame-table');
-    shameData.forEach(row => {
-      const total = row.sidney + row.atgni + row.pink + row.baxters + row.banana + row.choke;
-      shameTable.innerHTML += `<tr><td>${row.player}</td><td>${row.sidney}</td><td>${row.atgni}</td><td>${row.pink}</td><td>${row.baxters}</td><td>${row.banana}</td><td>${row.choke}</td><td>${total}</td></tr>`;
-    });
+          const target = fameTrophies.includes(trophy) ? fameScores :
+                         shameTrophies.includes(trophy) ? shameScores : null;
+
+          if (target) {
+            const names = winner.split(/,|&| and /).map(n => n.trim());
+            names.forEach(name => {
+              if (!target[name]) target[name] = {};
+              if (!target[name][trophy]) target[name][trophy] = 0;
+              target[name][trophy]++;
+            });
+          }
+        }
+      }
+
+      return { fameScores, shameScores };
+    }
+
+    function renderTable(scores, trophies, containerId) {
+      const container = document.getElementById(containerId);
+
+      Object.entries(scores).forEach(([player, trophyCounts]) => {
+        let total = 0;
+        const row = [`<td>${player}</td>`];
+        trophies.forEach(t => {
+          const count = trophyCounts[t] || 0;
+          total += count;
+          row.push(`<td>${count}</td>`);
+        });
+        row.push(`<td>${total}</td>`);
+        container.innerHTML += `<tr>${row.join('')}</tr>`;
+      });
+    }
+
+    async function init() {
+      const fameTrophies = [
+        'Loons Masters Champion', 'Jesus is my coach', 'Par 5\'s',
+        'Par 3\'s', 'Eiffel Tower', 'Man on Fire'
+      ];
+      const shameTrophies = [
+        'The Lord Sidney Bikerstaff Trophy', 'All the Gear, No Idea',
+        'The Pink Tee', 'Baxters', 'Big Banana', 'Le Choke',
+        'The Bandit', 'The \u201cDavies Turd\u201d Trophy',
+        'Sq Chop', 'Golf Mug', '4 warm piss largers!!', 'Golf Bag Bar', 'Mr Ed'
+      ];
+
+      const data = await fetchResultsData();
+      const { fameScores, shameScores } = buildLeaderboards(data, fameTrophies, shameTrophies);
+
+      renderTable(fameScores, fameTrophies, 'fame-table');
+      renderTable(shameScores, shameTrophies, 'shame-table');
+    }
+
+    init();
   </script>
 </body>
 </html>
