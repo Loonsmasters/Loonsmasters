@@ -57,13 +57,13 @@
   <nav>
     <a href="index.html">Home</a>
     <a href="profiles.html">Profiles</a>
-    <a href="results.html">Results</a>
-    <a href="trophies.html">Trophies</a>
     <a href="scores.html">Scores</a>
+    <a href="results.html">Results</a>
+    <a href="league.html">League</a>
     <a href="photos.html">Photos</a>
     <a href="courses.html">Courses</a>
+    <a href="trophies.html">Trophies</a>
     <a href="rules.html">Rules</a>
-    <a href="league.html">League</a>
   </nav>
 
   <main class="leaderboard">
@@ -82,12 +82,8 @@
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>Kev</td><td>3</td><td>1</td><td>2</td><td>2</td><td>0</td><td>1</td><td>9</td></tr>
-          <tr><td>Angus</td><td>2</td><td>3</td><td>1</td><td>1</td><td>0</td><td>0</td><td>7</td></tr>
-          <tr><td>Narna</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>1</td><td>5</td></tr>
-          <tr><td>Ernie Als</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
-          <!-- Additional players can go here -->
+        <tbody id="fame-table">
+          <!-- Filled dynamically -->
         </tbody>
       </table>
     </section>
@@ -107,12 +103,8 @@
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>
-          <tr><td>Mr Ed</td><td>2</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>5</td></tr>
-          <tr><td>Del</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>2</td></tr>
-          <tr><td>Stu</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>2</td></tr>
-          <tr><td>Duffy</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
-          <!-- Additional players can go here -->
+        <tbody id="shame-table">
+          <!-- Filled dynamically -->
         </tbody>
       </table>
     </section>
@@ -121,5 +113,33 @@
   <footer>
     <p>&copy; 2001–2025 Loons Masters Invitational | League Records</p>
   </footer>
+
+  <script>
+    const fameData = [
+      { player: 'Kev', masters: 3, jesus: 1, par5: 2, par3: 2, eiffel: 0, fire: 1 },
+      { player: 'Angus', masters: 2, jesus: 3, par5: 1, par3: 1, eiffel: 0, fire: 0 },
+      { player: 'Narna', masters: 1, jesus: 0, par5: 0, par3: 2, eiffel: 1, fire: 1 },
+      { player: 'Ernie Als', masters: 2, jesus: 0, par5: 0, par3: 0, eiffel: 0, fire: 0 }
+    ];
+
+    const shameData = [
+      { player: 'Mr Ed', sidney: 2, atgni: 1, pink: 1, baxters: 1, banana: 0, choke: 0 },
+      { player: 'Del', sidney: 0, atgni: 0, pink: 0, baxters: 1, banana: 0, choke: 1 },
+      { player: 'Stu', sidney: 0, atgni: 0, pink: 1, baxters: 0, banana: 1, choke: 0 },
+      { player: 'Duffy', sidney: 1, atgni: 0, pink: 0, baxters: 0, banana: 0, choke: 0 }
+    ];
+
+    const fameTable = document.getElementById('fame-table');
+    fameData.forEach(row => {
+      const total = row.masters + row.jesus + row.par5 + row.par3 + row.eiffel + row.fire;
+      fameTable.innerHTML += `<tr><td>${row.player}</td><td>${row.masters}</td><td>${row.jesus}</td><td>${row.par5}</td><td>${row.par3}</td><td>${row.eiffel}</td><td>${row.fire}</td><td>${total}</td></tr>`;
+    });
+
+    const shameTable = document.getElementById('shame-table');
+    shameData.forEach(row => {
+      const total = row.sidney + row.atgni + row.pink + row.baxters + row.banana + row.choke;
+      shameTable.innerHTML += `<tr><td>${row.player}</td><td>${row.sidney}</td><td>${row.atgni}</td><td>${row.pink}</td><td>${row.baxters}</td><td>${row.banana}</td><td>${row.choke}</td><td>${total}</td></tr>`;
+    });
+  </script>
 </body>
 </html>
