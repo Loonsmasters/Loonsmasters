@@ -252,3 +252,8 @@ main.trophies {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
+.sort-arrow {
+  font-size: 0.8rem;
+  margin-left: 5px;
+}

@@ -148,30 +148,48 @@
     <p>&copy; 2001–2025 Loons Masters Invitational | League Records</p>
   </footer>
 
-  <script>
-    document.querySelectorAll('th').forEach(th => {
-      th.addEventListener('click', () => {
-        const table = th.closest('table');
-        const index = Array.from(th.parentNode.children).indexOf(th);
-        const tbody = table.querySelector('tbody');
-        const rows = Array.from(tbody.querySelectorAll('tr'));
+<script>
+  document.querySelectorAll('th').forEach(th => {
+    th.setAttribute('data-order', 'desc');
+    th.innerHTML += ' <span class="sort-arrow">▼</span>'; // initial arrow
 
-        const sorted = rows.sort((a, b) => {
-          const A = a.children[index].innerText.trim();
-          const B = b.children[index].innerText.trim();
-          const numA = parseFloat(A);
-          const numB = parseFloat(B);
+    th.addEventListener('click', () => {
+      const table = th.closest('table');
+      const index = Array.from(th.parentNode.children).indexOf(th);
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
 
-          if (!isNaN(numA) && !isNaN(numB)) {
-            return numB - numA;
-          }
-          return A.localeCompare(B);
-        });
+      const order = th.getAttribute('data-order') === 'asc' ? 'desc' : 'asc';
+      th.setAttribute('data-order', order);
 
-        rows.forEach(row => tbody.removeChild(row));
-        sorted.forEach(row => tbody.appendChild(row));
+      // Reset arrows on all other headers
+      th.parentNode.querySelectorAll('th').forEach(other => {
+        if (other !== th) {
+          other.setAttribute('data-order', 'desc');
+          const span = other.querySelector('.sort-arrow');
+          if (span) span.textContent = '▼';
+        }
       });
+
+      // Set arrow on this header
+      const arrow = th.querySelector('.sort-arrow');
+      if (arrow) arrow.textContent = order === 'asc' ? '▲' : '▼';
+
+      rows.sort((a, b) => {
+        const A = a.children[index].innerText.trim();
+        const B = b.children[index].innerText.trim();
+        const numA = parseFloat(A);
+        const numB = parseFloat(B);
+
+        if (!isNaN(numA) && !isNaN(numB)) {
+          return order === 'asc' ? numA - numB : numB - numA;
+        }
+        return order === 'asc' ? A.localeCompare(B) : B.localeCompare(A);
+      });
+
+      rows.forEach(row => tbody.appendChild(row));
     });
-  </script>
+  });
+</script>
 </body>
 </html>
