@@ -1,4 +1,3 @@
-<!-- SCORES.HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,60 +9,78 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">  
   <style>
     .accordion {
-      margin: 1rem 0;
-      border: 1px solid #ccc;
+      margin-bottom: 2rem;
+    }
+
+    .accordion-item {
       border-radius: 8px;
       overflow: hidden;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
     }
-    .accordion summary {
-      font-size: 1.1rem;
-      padding: 1rem;
-      background-color: #34495e;
+
+    .accordion-header {
+      background-color: #2c3e50;
       color: white;
+      padding: 1rem 1.5rem;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: bold;
     }
+
+    .accordion-header::before {
+      content: '\25BA';
+      transition: transform 0.3s;
+    }
+
+    .accordion-header.active::before {
+      transform: rotate(90deg);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1rem;
+    }
+
+    .accordion-body.active {
+      max-height: 3000px;
+      transition: max-height 0.6s ease;
+      padding: 1rem 1.5rem;
+    }
+
     .tab-buttons {
       display: flex;
       flex-wrap: wrap;
       background: #ddd;
       border-bottom: 1px solid #ccc;
+      margin-bottom: 1rem;
     }
+
     .tab-buttons button {
-      flex: 1;
-      padding: 0.75rem;
+      padding: 0.75rem 1rem;
       border: none;
       background: #ccc;
       cursor: pointer;
+      margin-right: 5px;
     }
+
     .tab-buttons button.active {
       background: #2c3e50;
       color: white;
       font-weight: bold;
     }
+
     .tab-content {
       display: none;
-      padding: 1rem;
-      background: #f4f4f4;
       overflow-x: auto;
     }
+
     .tab-content.active {
       display: block;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    table, th, td {
-      border: 1px solid #ccc;
-    }
-    th, td {
-      padding: 0.5rem;
-      text-align: center;
-    }
-    th {
-      background: #2c3e50;
-      color: white;
     }
   </style>
 </head>
@@ -84,7 +101,7 @@
     <a href="rules.html">Rules</a>
   </nav>
   <main>
-    <div id="scores-container"></div>
+    <section class="accordion" id="scores-container"></section>
   </main>
   <footer>
     <p>&copy; 2001-2025 Loons Masters Invitational</p>
@@ -97,12 +114,26 @@
       const years = [2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004, 2003];
 
       for (const year of years) {
-        const section = document.createElement('details');
-        section.classList.add('accordion');
-        section.innerHTML = `<summary>${year}</summary><div class="tab-buttons"></div><div class="tabs"></div>`;
+        const item = document.createElement('div');
+        item.className = 'accordion-item';
 
-        const tabButtons = section.querySelector('.tab-buttons');
-        const tabContentWrapper = section.querySelector('.tabs');
+        const header = document.createElement('div');
+        header.className = 'accordion-header';
+        header.textContent = year;
+        header.addEventListener('click', () => {
+          header.classList.toggle('active');
+          body.classList.toggle('active');
+        });
+
+        const body = document.createElement('div');
+        body.className = 'accordion-body';
+
+        const tabButtons = document.createElement('div');
+        tabButtons.className = 'tab-buttons';
+        const tabWrapper = document.createElement('div');
+
+        body.appendChild(tabButtons);
+        body.appendChild(tabWrapper);
 
         for (const type of scoreTypes) {
           const jsonPath = `scores_json/${year}_${type}.json`;
@@ -111,48 +142,44 @@
             if (!response.ok) continue;
             const data = await response.json();
 
-            // Create tab button
             const btn = document.createElement('button');
             btn.textContent = type.charAt(0).toUpperCase() + type.slice(1);
-            btn.onclick = () => {
-              const contents = section.querySelectorAll('.tab-content');
-              const buttons = section.querySelectorAll('.tab-buttons button');
-              contents.forEach(c => c.classList.remove('active'));
-              buttons.forEach(b => b.classList.remove('active'));
-              tabContent.classList.add('active');
-              btn.classList.add('active');
-            };
             tabButtons.appendChild(btn);
 
-            // Create tab content
             const tabContent = document.createElement('div');
             tabContent.className = 'tab-content';
             let html = '<table><thead><tr>';
-            Object.keys(data[0] || {}).forEach(key => {
-              html += `<th>${key}</th>`;
-            });
+            Object.keys(data[0] || {}).forEach(k => html += `<th>${k}</th>`);
             html += '</tr></thead><tbody>';
             data.forEach(row => {
               html += '<tr>' + Object.values(row).map(v => `<td>${v}</td>`).join('') + '</tr>';
             });
             html += '</tbody></table>';
             tabContent.innerHTML = html;
-            tabContentWrapper.appendChild(tabContent);
+            tabWrapper.appendChild(tabContent);
+
+            btn.addEventListener('click', () => {
+              tabWrapper.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+              tabButtons.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+              tabContent.classList.add('active');
+              btn.classList.add('active');
+            });
 
           } catch (e) {
-            console.warn(`No file for ${year} ${type}`);
+            console.warn(`No data for ${year} - ${type}`);
           }
         }
 
-        // Activate first tab
         const firstBtn = tabButtons.querySelector('button');
-        const firstTab = tabContentWrapper.querySelector('.tab-content');
+        const firstTab = tabWrapper.querySelector('.tab-content');
         if (firstBtn && firstTab) {
           firstBtn.classList.add('active');
           firstTab.classList.add('active');
         }
 
-        container.appendChild(section);
+        item.appendChild(header);
+        item.appendChild(body);
+        container.appendChild(item);
       }
     }
 
