@@ -7,39 +7,51 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <style>
-    .leaderboard-section {
-      max-width: 900px;
+    .leaderboard {
+      max-width: 1000px;
       margin: 2rem auto;
     }
-    h2 {
+
+    .leaderboard h2 {
       color: #c0392b;
-      border-bottom: 2px solid #c0392b;
-      padding-bottom: 0.5rem;
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 1rem;
     }
-    table {
+
+    .leaderboard table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
     }
-    th, td {
+
+    .leaderboard th, .leaderboard td {
       padding: 0.75rem;
       border: 1px solid #ccc;
       text-align: left;
     }
-    th {
+
+    .leaderboard th {
       background-color: #2c3e50;
       color: white;
     }
-    .trophy-highlight {
+
+    .highlight {
       font-weight: bold;
-      color: #2980b9;
+      background-color: #eafaf1;
+    }
+
+    @media (max-width: 768px) {
+      .leaderboard table, .leaderboard th, .leaderboard td {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Loons Masters Invitational</h1>
-    <p>Hall of Fame & Hall of Shame</p>
+    <p>🏆 Hall of Fame & Hall of Shame Leaderboards</p>
   </header>
 
   <nav>
@@ -51,99 +63,63 @@
     <a href="photos.html">Photos</a>
     <a href="courses.html">Courses</a>
     <a href="rules.html">Rules</a>
+    <a href="league.html">League</a>
   </nav>
 
-  <main>
-    <div class="leaderboard-section">
-      <h2>🏆 Hall of Fame Leaderboard</h2>
-      <table id="fameTable">
-        <thead><tr><th>Player</th><th>Trophies Won</th><th>Total</th></tr></thead>
-        <tbody></tbody>
+  <main class="leaderboard">
+    <section>
+      <h2>Hall of Fame 🏅</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Masters</th>
+            <th>Jesus</th>
+            <th>Par 5</th>
+            <th>Par 3</th>
+            <th>Eiffel</th>
+            <th>Man on Fire</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Kev</td><td>3</td><td>1</td><td>2</td><td>2</td><td>0</td><td>1</td><td>9</td></tr>
+          <tr><td>Angus</td><td>2</td><td>3</td><td>1</td><td>1</td><td>0</td><td>0</td><td>7</td></tr>
+          <tr><td>Narna</td><td>1</td><td>0</td><td>0</td><td>2</td><td>1</td><td>1</td><td>5</td></tr>
+          <tr><td>Ernie Als</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
+          <!-- Additional players can go here -->
+        </tbody>
       </table>
+    </section>
 
-      <h2>💩 Hall of Shame Leaderboard</h2>
-      <table id="shameTable">
-        <thead><tr><th>Player</th><th>Trophies Won</th><th>Total</th></tr></thead>
-        <tbody></tbody>
+    <section>
+      <h2>Hall of Shame 🫣</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>SIDNEY</th>
+            <th>ATGNI</th>
+            <th>Pink Tee</th>
+            <th>Baxters</th>
+            <th>Big Banana</th>
+            <th>Le Choke</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Mr Ed</td><td>2</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>5</td></tr>
+          <tr><td>Del</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>2</td></tr>
+          <tr><td>Stu</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>2</td></tr>
+          <tr><td>Duffy</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+          <!-- Additional players can go here -->
+        </tbody>
       </table>
-    </div>
+    </section>
   </main>
 
   <footer>
-    <p>&copy; 2001–2025 Loons Masters Invitational</p>
+    <p>&copy; 2001–2025 Loons Masters Invitational | League Records</p>
   </footer>
-
-  <script>
-    const hallOfFameTrophies = [
-      "Loons Masters Champion",
-      "Jesus is my coach",
-      "Par 5",
-      "Par 3",
-      "Closest to the Pin",
-      "Eiffel Tower",
-      "Man on Fire"
-    ];
-    const hallOfShameTrophies = [
-      "SIDNEY",
-      "ATGNI",
-      "Pink Tee",
-      "Baxters",
-      "Big Banana",
-      "Le Choke",
-      "Bandit",
-      "The Davis",
-      "Squeez Chop",
-      "Golf Mug",
-      "Warm Lagers",
-      "Golf Bag Bar",
-      "Hourse Shoe"
-    ];
-
-    async function generateLeaderboards() {
-      const response = await fetch("results.html");
-      const text = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, "text/html");
-
-      const allRows = [...doc.querySelectorAll(".accordion-body table tbody tr")];
-      const fame = {}, shame = {};
-
-      allRows.forEach(row => {
-        const trophy = row.children[0]?.textContent.trim();
-        const winner = row.children[1]?.textContent.trim();
-
-        if (!trophy || !winner) return;
-
-        const map = hallOfFameTrophies.some(t => trophy.includes(t)) ? fame :
-                    hallOfShameTrophies.some(t => trophy.includes(t)) ? shame : null;
-        if (!map) return;
-
-        winner.split(/,|&| and /).map(p => p.trim()).forEach(person => {
-          if (!person) return;
-          if (!map[person]) map[person] = [];
-          map[person].push(trophy);
-        });
-      });
-
-      const renderTable = (data, elId) => {
-        const tbody = document.querySelector(`#${elId} tbody`);
-        const sorted = Object.entries(data).sort((a,b) => b[1].length - a[1].length);
-        sorted.forEach(([player, trophies]) => {
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${player}</td>
-            <td>${[...new Set(trophies)].join(", ")}</td>
-            <td>${trophies.length}</td>
-          `;
-          tbody.appendChild(row);
-        });
-      };
-
-      renderTable(fame, "fameTable");
-      renderTable(shame, "shameTable");
-    }
-
-    generateLeaderboards();
-  </script>
 </body>
 </html>
