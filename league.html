@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loons Masters - League Tables</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .leaderboard-section {
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+    h2 {
+      color: #c0392b;
+      border-bottom: 2px solid #c0392b;
+      padding-bottom: 0.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #2c3e50;
+      color: white;
+    }
+    .trophy-highlight {
+      font-weight: bold;
+      color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Loons Masters Invitational</h1>
+    <p>Hall of Fame & Hall of Shame</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="profiles.html">Profiles</a>
+    <a href="results.html">Results</a>
+    <a href="trophies.html">Trophies</a>
+    <a href="scores.html">Scores</a>
+    <a href="photos.html">Photos</a>
+    <a href="courses.html">Courses</a>
+    <a href="rules.html">Rules</a>
+  </nav>
+
+  <main>
+    <div class="leaderboard-section">
+      <h2>🏆 Hall of Fame Leaderboard</h2>
+      <table id="fameTable">
+        <thead><tr><th>Player</th><th>Trophies Won</th><th>Total</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h2>💩 Hall of Shame Leaderboard</h2>
+      <table id="shameTable">
+        <thead><tr><th>Player</th><th>Trophies Won</th><th>Total</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2001–2025 Loons Masters Invitational</p>
+  </footer>
+
+  <script>
+    const hallOfFameTrophies = [
+      "Loons Masters Champion",
+      "Jesus is my coach",
+      "Par 5",
+      "Par 3",
+      "Closest to the Pin",
+      "Eiffel Tower",
+      "Man on Fire"
+    ];
+    const hallOfShameTrophies = [
+      "SIDNEY",
+      "ATGNI",
+      "Pink Tee",
+      "Baxters",
+      "Big Banana",
+      "Le Choke",
+      "Bandit",
+      "The Davis",
+      "Squeez Chop",
+      "Golf Mug",
+      "Warm Lagers",
+      "Golf Bag Bar",
+      "Hourse Shoe"
+    ];
+
+    async function generateLeaderboards() {
+      const response = await fetch("results.html");
+      const text = await response.text();
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(text, "text/html");
+
+      const allRows = [...doc.querySelectorAll(".accordion-body table tbody tr")];
+      const fame = {}, shame = {};
+
+      allRows.forEach(row => {
+        const trophy = row.children[0]?.textContent.trim();
+        const winner = row.children[1]?.textContent.trim();
+
+        if (!trophy || !winner) return;
+
+        const map = hallOfFameTrophies.some(t => trophy.includes(t)) ? fame :
+                    hallOfShameTrophies.some(t => trophy.includes(t)) ? shame : null;
+        if (!map) return;
+
+        winner.split(/,|&| and /).map(p => p.trim()).forEach(person => {
+          if (!person) return;
+          if (!map[person]) map[person] = [];
+          map[person].push(trophy);
+        });
+      });
+
+      const renderTable = (data, elId) => {
+        const tbody = document.querySelector(`#${elId} tbody`);
+        const sorted = Object.entries(data).sort((a,b) => b[1].length - a[1].length);
+        sorted.forEach(([player, trophies]) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${player}</td>
+            <td>${[...new Set(trophies)].join(", ")}</td>
+            <td>${trophies.length}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      };
+
+      renderTable(fame, "fameTable");
+      renderTable(shame, "shameTable");
+    }
+
+    generateLeaderboards();
+  </script>
+</body>
+</html>
