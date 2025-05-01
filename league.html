@@ -34,6 +34,7 @@
     .leaderboard th {
       background-color: #2c3e50;
       color: white;
+      cursor: pointer;
     }
 
     .highlight {
@@ -69,28 +70,41 @@
   <main class="leaderboard">
     <section>
       <h2>Hall of Fame 🏅</h2>
-      <table>
+      <table id="fame-table">
         <thead>
           <tr>
             <th>Player</th>
-            <th>Masters</th>
-            <th>Jesus</th>
+            <th>Loons Masters Champion</th>
+            <th>Jesus is my coach</th>
             <th>Par 5</th>
             <th>Par 3</th>
-            <th>Eiffel</th>
+            <th>Closest to Pin</th>
+            <th>Eiffel Tower</th>
             <th>Man on Fire</th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody id="fame-table">
-          <!-- Filled dynamically -->
+        <tbody>
+          <tr><td>Angus</td><td>1</td><td>1</td><td>3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>6</td></tr>
+          <tr><td>Sparky</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>4</td></tr>
+          <tr><td>Ernie Als</td><td>2</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>4</td></tr>
+          <tr><td>Piger</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>Kev</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td><td>1</td><td>7</td></tr>
+          <tr><td>Scott</td><td>1</td><td>0</td><td>2</td><td>0</td><td>1</td><td>1</td><td>1</td><td>6</td></tr>
+          <tr><td>Mr Ed</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
+          <tr><td>Duffy</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+          <tr><td>Narna</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0</td><td>0</td><td>1</td><td>4</td></tr>
+          <tr><td>Del</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>5</td></tr>
+          <tr><td>Keith</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>5</td></tr>
+          <tr><td>Woody</td><td>1</td><td>0</td><td>3</td><td>1</td><td>0</td><td>0</td><td>0</td><td>5</td></tr>
+          <tr><td>Stu</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
         </tbody>
       </table>
     </section>
 
     <section>
       <h2>Hall of Shame 🫣</h2>
-      <table>
+      <table id="shame-table">
         <thead>
           <tr>
             <th>Player</th>
@@ -100,11 +114,30 @@
             <th>Baxters</th>
             <th>Big Banana</th>
             <th>Le Choke</th>
+            <th>Bandit</th>
+            <th>The Davis</th>
+            <th>Squeez Chop</th>
+            <th>Golf Mug</th>
+            <th>Warm Lagers</th>
+            <th>Golf Bag Bar</th>
+            <th>Hourse Shoe</th>
             <th>Total</th>
           </tr>
         </thead>
-        <tbody id="shame-table">
-          <!-- Filled dynamically -->
+        <tbody>
+          <tr><td>Angus</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>3</td></tr>
+          <tr><td>Sparky</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+          <tr><td>Ernie Als</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>1</td><td>1</td><td>6</td></tr>
+          <tr><td>Piger</td><td>1</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td><td>1</td><td>1</td><td>0</td><td>7</td></tr>
+          <tr><td>Kev</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+          <tr><td>Scott</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>Mr Ed</td><td>1</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>1</td><td>9</td></tr>
+          <tr><td>Duffy</td><td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>2</td><td>0</td><td>0</td><td>0</td><td>1</td><td>9</td></tr>
+          <tr><td>Narna</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>2</td><td>1</td><td>0</td><td>6</td></tr>
+          <tr><td>Del</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>3</td></tr>
+          <tr><td>Keith</td><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td>Woody</td><td>0</td><td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>2</td></tr>
+          <tr><td>Stu</td><td>0</td><td>3</td><td>0</td><td>2</td><td>3</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td><td>12</td></tr>
         </tbody>
       </table>
     </section>
@@ -113,76 +146,5 @@
   <footer>
     <p>&copy; 2001–2025 Loons Masters Invitational | League Records</p>
   </footer>
-
-  <script>
-    async function fetchResultsData() {
-      const response = await fetch('trophies_by_year.json');
-      return await response.json();
-    }
-
-    function buildLeaderboards(data, fameTrophies, shameTrophies) {
-      const fameScores = {};
-      const shameScores = {};
-
-      for (const year in data) {
-        const yearData = data[year];
-        for (const trophy in yearData) {
-          const winner = yearData[trophy];
-          if (!winner) continue;
-
-          const target = fameTrophies.includes(trophy) ? fameScores :
-                         shameTrophies.includes(trophy) ? shameScores : null;
-
-          if (target) {
-            const names = winner.split(/,|&| and /).map(n => n.trim());
-            names.forEach(name => {
-              if (!target[name]) target[name] = {};
-              if (!target[name][trophy]) target[name][trophy] = 0;
-              target[name][trophy]++;
-            });
-          }
-        }
-      }
-
-      return { fameScores, shameScores };
-    }
-
-    function renderTable(scores, trophies, containerId) {
-      const container = document.getElementById(containerId);
-
-      Object.entries(scores).forEach(([player, trophyCounts]) => {
-        let total = 0;
-        const row = [`<td>${player}</td>`];
-        trophies.forEach(t => {
-          const count = trophyCounts[t] || 0;
-          total += count;
-          row.push(`<td>${count}</td>`);
-        });
-        row.push(`<td>${total}</td>`);
-        container.innerHTML += `<tr>${row.join('')}</tr>`;
-      });
-    }
-
-    async function init() {
-      const fameTrophies = [
-        'Loons Masters Champion', 'Jesus is my coach', 'Par 5\'s',
-        'Par 3\'s', 'Eiffel Tower', 'Man on Fire'
-      ];
-      const shameTrophies = [
-        'The Lord Sidney Bikerstaff Trophy', 'All the Gear, No Idea',
-        'The Pink Tee', 'Baxters', 'Big Banana', 'Le Choke',
-        'The Bandit', 'The \u201cDavies Turd\u201d Trophy',
-        'Sq Chop', 'Golf Mug', '4 warm piss largers!!', 'Golf Bag Bar', 'Mr Ed'
-      ];
-
-      const data = await fetchResultsData();
-      const { fameScores, shameScores } = buildLeaderboards(data, fameTrophies, shameTrophies);
-
-      renderTable(fameScores, fameTrophies, 'fame-table');
-      renderTable(shameScores, shameTrophies, 'shame-table');
-    }
-
-    init();
-  </script>
 </body>
 </html>
