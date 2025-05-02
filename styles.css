@@ -117,7 +117,15 @@ footer p {
   p {
     font-size: 0.95rem;
   }
+
+  nav {
+    justify-content: flex-start;
+  }
 }
+	nav {
+	  scroll-behavior: smooth;
+	}
+
 
 /* Profiles Page Styles */
 main.profiles {
